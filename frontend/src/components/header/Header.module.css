@@ -1,0 +1,30 @@
+.headerContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  background-color: #1c1c1c;
+  color: #f0f0f0;
+  text-align: center;
+  height: 80px;
+  padding: 0 20px;
+}
+
+.headerContent {
+  max-width: 1200px;
+  width: 100%;
+}
+
+.headerContent h1 {
+  font-size: 24px;
+  margin: 0;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.headerContent p {
+  font-size: 16px;
+  margin: 0;
+  font-style: italic;
+  color: #cccccc;
+}
