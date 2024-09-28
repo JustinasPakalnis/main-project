@@ -1,25 +1,25 @@
 import { useContext } from "react";
 import style from "./List.module.css";
-import { useNavigate } from "react-router-dom";
 import { GlobalContext } from "../../context/GlobalContext";
-
+import Add from "../newItem/Add.jsx";
+import Update from "../newItem/Update.jsx";
 const List = () => {
-  const navigate = useNavigate();
-  const { items, handleDelete } = useContext(GlobalContext);
-
-  const handleUpdate = (id) => {
-    navigate(`/update/${id}`);
-  };
-  const handleAdd = () => {
-    navigate(`/add`);
-  };
+  const {
+    items,
+    handleDelete,
+    handleInsertActive,
+    insertActive,
+    handleUpdateActive,
+  } = useContext(GlobalContext);
 
   return (
     <>
       <div className={style.mainListContainer}>
-        <button className={style.button} onClick={() => handleAdd()}>
-          Add new item
+        <button className={style.button} onClick={() => handleInsertActive()}>
+          {insertActive === false ? "Add new item" : "Cancel"}
         </button>
+        <Add></Add>
+        <Update></Update>
         <div className={style.listContainer}>
           <ul className={style.list}>
             <div className={style.title}>
@@ -43,7 +43,7 @@ const List = () => {
                 </button>
                 <button
                   className={style.button}
-                  onClick={() => handleUpdate(item.id)}
+                  onClick={() => handleUpdateActive(item.id)}
                 >
                   Update
                 </button>

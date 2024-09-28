@@ -2,13 +2,35 @@ import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 export const initialContext = {
   items: [],
+  insertActive: false,
+  updateActive: false,
+  itemID: null,
   fetchAllItems: () => {},
   handleDelete: () => {},
+  handleInsertActive: () => {},
+  handleUpdateActive: () => {},
+  handleUpdateActiveOFF: () => {},
 };
 export const GlobalContext = createContext(initialContext);
 
 export function ContextWrapper(props) {
   const [items, setItems] = useState(initialContext.items);
+  const [insertActive, setinsertActive] = useState(initialContext.insertActive);
+  const [updateActive, setUpdateActive] = useState(initialContext.updateActive);
+  const [itemID, setitemID] = useState(initialContext.itemID);
+
+  const handleInsertActive = () => {
+    setinsertActive(!insertActive);
+  };
+  const handleUpdateActiveOFF = () => {
+    setUpdateActive(false);
+  };
+
+  const handleUpdateActive = (id) => {
+    setitemID(id);
+    setUpdateActive(true);
+  };
+  console.log(itemID);
 
   // Get data from SQL
   const fetchAllItems = async () => {
@@ -27,7 +49,7 @@ export function ContextWrapper(props) {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:8800/inventory/${id}`);
-      window.location.reload();
+      fetchAllItems();
     } catch (err) {
       console.log(err);
     }
@@ -37,6 +59,13 @@ export function ContextWrapper(props) {
     items,
     fetchAllItems,
     handleDelete,
+    insertActive,
+    handleInsertActive,
+    updateActive,
+    handleUpdateActive,
+    itemID,
+    setitemID,
+    handleUpdateActiveOFF,
   };
   return (
     <GlobalContext.Provider value={value}>

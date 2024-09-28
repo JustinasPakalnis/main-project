@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import style from "./Login.module.css";
-
+import { LoginContext } from "../context/LoginContext";
 const Login = () => {
+  const { isAuthenticated, handleAuthentication } = useContext(LoginContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState(null);
-  const [errMsg, setErrMsg] = useState(null);
 
   const navigate = useNavigate();
 
@@ -20,11 +20,8 @@ const Login = () => {
         password: password,
       });
 
-      console.log("Full response:", response);
-      console.log("Login status:", response.data.message);
-      console.log("User details:", response.data.user);
-
       if (response.data.message === "Login approved") {
+        handleAuthentication();
         navigate("/main");
       }
       if (

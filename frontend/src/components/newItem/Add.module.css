@@ -1,0 +1,60 @@
+.formInsert[data-active="false"] {
+  display: none;
+}
+.formUpdate[data-active="false"] {
+  display: none;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.form h1 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.formRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid rgba(114, 114, 114, 0.534);
+  border-radius: 15px;
+}
+
+.formRow input {
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f3f3f3;
+  transition: border-color 0.3s;
+}
+
+.formRow input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.form button {
+  padding: 8px 16px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.form button:hover {
+  background-color: #0056b3;
+}

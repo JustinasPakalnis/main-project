@@ -77,6 +77,9 @@
 }
 
 .button:hover {
-  background-color: #d32f2f;
+  background-color: #22460b;
   transform: translateY(-2px);
+}
+.btnDelete:hover {
+  background-color: #bd2015;
 }
