@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { GlobalContext } from "../../context/GlobalContext";
 import style from "./Add.module.css";
 const Update = () => {

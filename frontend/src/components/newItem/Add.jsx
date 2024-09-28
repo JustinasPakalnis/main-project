@@ -32,7 +32,7 @@ const Add = () => {
 
   const handleClear = () => {
     setItem({ item: "", owner: "", location: "", value: null });
-    setError(false); // Clear error on reset
+    setError(false);
   };
   return (
     <div

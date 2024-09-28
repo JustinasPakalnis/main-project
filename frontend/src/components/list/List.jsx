@@ -16,7 +16,7 @@ const List = () => {
     <>
       <div className={style.mainListContainer}>
         <button className={style.button} onClick={() => handleInsertActive()}>
-          {insertActive === false ? "Add new item" : "Cancel"}
+          {insertActive === false ? "Add new item" : "Close"}
         </button>
         <Add></Add>
         <Update></Update>

@@ -20,6 +20,7 @@ export function ContextWrapper(props) {
   const [itemID, setitemID] = useState(initialContext.itemID);
 
   const handleInsertActive = () => {
+    setUpdateActive(false);
     setinsertActive(!insertActive);
   };
   const handleUpdateActiveOFF = () => {
@@ -27,6 +28,7 @@ export function ContextWrapper(props) {
   };
 
   const handleUpdateActive = (id) => {
+    setinsertActive(false);
     setitemID(id);
     setUpdateActive(true);
   };
