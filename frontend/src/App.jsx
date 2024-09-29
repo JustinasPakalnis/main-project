@@ -11,8 +11,8 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Header />
         <LoginWrapper>
+          <Header />
           <Routes>
             <Route path="/" element={<Login />} />
             <Route

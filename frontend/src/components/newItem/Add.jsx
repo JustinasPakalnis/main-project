@@ -3,37 +3,15 @@ import axios from "axios";
 import { GlobalContext } from "../../context/GlobalContext";
 import style from "./Add.module.css";
 const Add = () => {
-  const { fetchAllItems, insertActive } = useContext(GlobalContext);
-  const [item, setItem] = useState({
-    item: "",
-    owner: "",
-    location: "",
-    value: null,
-  });
+  const {
+    fetchAllItems,
+    insertActive,
+    handleInputChange,
+    item,
+    handleFieldClear,
+    handleInsertClick,
+  } = useContext(GlobalContext);
 
-  const [error, setError] = useState(false);
-
-  const handleChange = (e) => {
-    setItem((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-  console.log(item);
-
-  const handleClick = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post("http://localhost:8800/inventory", item);
-      fetchAllItems();
-    } catch (err) {
-      console.log(err);
-      setError(true);
-    }
-  };
-
-  const handleClear = () => {
-    setItem({ item: "", owner: "", location: "", value: null });
-    setError(false);
-  };
   return (
     <div
       className={`${style.form} ${style.formInsert}`}
@@ -44,33 +22,33 @@ const Add = () => {
         <input
           type="text"
           placeholder="item"
-          onChange={handleChange}
+          onChange={handleInputChange}
           name="item"
           value={item.item}
         />
         <input
           type="text"
           placeholder="owner"
-          onChange={handleChange}
+          onChange={handleInputChange}
           name="owner"
           value={item.owner}
         />
         <input
           type="text"
           placeholder="location"
-          onChange={handleChange}
+          onChange={handleInputChange}
           name="location"
           value={item.location}
         />
         <input
           type="number"
           placeholder="value"
-          onChange={handleChange}
+          onChange={handleInputChange}
           name="value"
           value={item.value || ""}
         />
-        <button onClick={handleClick}>Add</button>
-        <button onClick={handleClear}>Clear</button>
+        <button onClick={handleInsertClick}>Add</button>
+        <button onClick={handleFieldClear}>Clear</button>
       </div>
     </div>
   );

@@ -1,42 +1,16 @@
 import React, { useContext, useState, useEffect } from "react";
-import axios from "axios";
 import { GlobalContext } from "../../context/GlobalContext";
 import style from "./Add.module.css";
 const Update = () => {
-  const { items, fetchAllItems, updateActive, itemID, handleUpdateActiveOFF } =
-    useContext(GlobalContext);
-
-  const [item, setItem] = useState({
-    item: "",
-    owner: "",
-    location: "",
-    value: null,
-  });
-
-  const [error, setError] = useState(false);
-
-  useEffect(() => {
-    const foundItem = items.find((s) => s.id === itemID);
-    if (foundItem) {
-      setItem(foundItem);
-    }
-  }, [itemID, items]);
-
-  const handleChange = (e) => {
-    setItem((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-  const handleClick = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.put("http://localhost:8800/inventory/" + itemID, item);
-      fetchAllItems();
-      handleUpdateActiveOFF();
-    } catch (err) {
-      console.log(err);
-      setError(true);
-    }
-  };
+  const {
+    items,
+    item,
+    handleInputChange,
+    updateActive,
+    itemID,
+    handleUpdateActiveOFF,
+    handleUpdateClick,
+  } = useContext(GlobalContext);
 
   return (
     <div
@@ -49,31 +23,34 @@ const Update = () => {
           value={item.item}
           type="text"
           placeholder="item"
-          onChange={handleChange}
+          onChange={handleInputChange}
           name="item"
         />
         <input
           value={item.owner}
           type="text"
           placeholder="owner"
-          onChange={handleChange}
+          onChange={handleInputChange}
           name="owner"
         />
         <input
           value={item.location}
           type="text"
           placeholder="location"
-          onChange={handleChange}
+          onChange={handleInputChange}
           name="location"
         />
         <input
           value={item.value || ""}
           type="number"
           placeholder="value"
-          onChange={handleChange}
+          onChange={handleInputChange}
           name="value"
         />
-        <button className="formButton" onClick={handleClick}>
+        <button
+          className="formButton"
+          onClick={(e) => handleUpdateClick(e, item)}
+        >
           UPDATE
         </button>
         <button className="formButton" onClick={handleUpdateActiveOFF}>

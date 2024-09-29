@@ -1,46 +1,17 @@
 import React, { useState, useContext } from "react";
-import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
 import style from "./Login.module.css";
 import { LoginContext } from "../context/LoginContext";
 const Login = () => {
-  const { isAuthenticated, handleAuthentication } = useContext(LoginContext);
+  const { handleLogin, message } = useContext(LoginContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState(null);
-
-  const navigate = useNavigate();
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-
-    try {
-      const response = await axios.post("http://localhost:8800/api/login", {
-        username: username,
-        password: password,
-      });
-
-      if (response.data.message === "Login approved") {
-        handleAuthentication();
-        navigate("/main");
-      }
-      if (
-        response.data.message === "Login denied, incorrect password" ||
-        response.data.message === "User not found"
-      ) {
-        setMessage("LOGIN HAS BEEN DENIED!");
-        setTimeout(() => {
-          setMessage(null);
-        }, 3000);
-      }
-    } catch (error) {
-      console.error("Login error:", error);
-    }
-  };
 
   return (
     <section className={style.loginContainer}>
-      <form className={style.login} onSubmit={handleLogin}>
+      <form
+        className={style.login}
+        onSubmit={(e) => handleLogin(e, username, password)}
+      >
         <h2 className={style.title}>To acces you have to log in</h2>
         <div>
           <label className={style.label}>Username: </label>

@@ -5,26 +5,50 @@ export const initialContext = {
   insertActive: false,
   updateActive: false,
   itemID: null,
+  item: {
+    item: "",
+    owner: "",
+    location: "",
+    value: null,
+  },
   fetchAllItems: () => {},
   handleDelete: () => {},
   handleInsertActive: () => {},
   handleUpdateActive: () => {},
   handleUpdateActiveOFF: () => {},
+  handleUpdateClick: () => {},
+  handleInputChange: () => {},
+  handleFieldClear: () => {},
+  handleInsertClick: () => {},
 };
 export const GlobalContext = createContext(initialContext);
 
 export function ContextWrapper(props) {
   const [items, setItems] = useState(initialContext.items);
+  const [item, setItem] = useState(initialContext.item);
   const [insertActive, setinsertActive] = useState(initialContext.insertActive);
   const [updateActive, setUpdateActive] = useState(initialContext.updateActive);
   const [itemID, setitemID] = useState(initialContext.itemID);
-
+  //Clear input field
+  const handleFieldClear = () => {
+    setItem(initialContext.item);
+  };
+  // When click UPDATE the field get filled with selected items data
+  useEffect(() => {
+    const foundItem = items.find((s) => s.id === itemID);
+    if (foundItem) {
+      setItem(foundItem);
+    }
+  }, [itemID, items]);
+  //HANDLING INPUTCHANGE
+  const handleInputChange = (e) => {
+    setItem((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+  // INSERT NEW ITEM AND UPDATE ITEM WINDOW
   const handleInsertActive = () => {
+    handleFieldClear();
     setUpdateActive(false);
     setinsertActive(!insertActive);
-  };
-  const handleUpdateActiveOFF = () => {
-    setUpdateActive(false);
   };
 
   const handleUpdateActive = (id) => {
@@ -32,7 +56,11 @@ export function ContextWrapper(props) {
     setitemID(id);
     setUpdateActive(true);
   };
-  console.log(itemID);
+
+  const handleUpdateActiveOFF = () => {
+    handleFieldClear();
+    setUpdateActive(false);
+  };
 
   // Get data from SQL
   const fetchAllItems = async () => {
@@ -56,9 +84,31 @@ export function ContextWrapper(props) {
       console.log(err);
     }
   };
-
+  //Update selected item API
+  const handleUpdateClick = async (e, item) => {
+    e.preventDefault();
+    try {
+      await axios.put("http://localhost:8800/inventory/" + itemID, item);
+      fetchAllItems();
+      handleUpdateActiveOFF();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  //INSERTING NEW ITEM TO SQL
+  const handleInsertClick = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post("http://localhost:8800/inventory", item);
+      fetchAllItems();
+    } catch (err) {
+      console.log(err);
+      setError(true);
+    }
+  };
   const value = {
     items,
+    item,
     fetchAllItems,
     handleDelete,
     insertActive,
@@ -68,6 +118,11 @@ export function ContextWrapper(props) {
     itemID,
     setitemID,
     handleUpdateActiveOFF,
+    handleUpdateClick,
+    handleInputChange,
+    setItem,
+    handleFieldClear,
+    handleInsertClick,
   };
   return (
     <GlobalContext.Provider value={value}>

@@ -3,11 +3,12 @@
   justify-content: center;
   align-items: center;
   align-content: center;
-  background-color: #1c1c1c;
+  background: linear-gradient(135deg, #3a3a3a, #4b1a1a);
   color: #f0f0f0;
   text-align: center;
   height: 80px;
   padding: 0 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .headerContent {
@@ -24,7 +25,10 @@
 
 .headerContent p {
   font-size: 16px;
-  margin: 0;
+
   font-style: italic;
   color: #cccccc;
+}
+.headerUser {
+  width: 300px;
 }
