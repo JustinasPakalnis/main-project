@@ -16,6 +16,7 @@ const NavBar = () => {
       </button>
       <span className={style.navLink}>Active items(future)</span>
       <span className={style.navLink}>Retired items(future)</span>
+      <span className={style.navLink}>Item transfers(future)</span>
       <span className={style.navLink}>History logs(future)</span>
       <button
         className={style.navButton}

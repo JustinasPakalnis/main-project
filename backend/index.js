@@ -70,12 +70,6 @@ app.put("/inventory/:id", (req, res) => {
   });
 });
 
-const adminLogin = {
-  userName: "Admin",
-  userPassword: "Admin1",
-};
-
-const userData = [];
 app.get("/users", (req, res) => {
   const q = "SELECT * FROM main_project_database.users";
   db.query(q, (err, data) => {
