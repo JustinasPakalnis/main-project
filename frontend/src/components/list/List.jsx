@@ -3,6 +3,7 @@ import style from "./List.module.css";
 import { GlobalContext } from "../../context/GlobalContext";
 import Add from "../newItem/Add.jsx";
 import Update from "../newItem/Update.jsx";
+import SecondaryHeader from "../secondaryHeader/SecondaryHeader.jsx";
 const List = () => {
   const {
     items,
@@ -14,6 +15,7 @@ const List = () => {
 
   return (
     <>
+      <SecondaryHeader></SecondaryHeader>
       <div className={style.mainListContainer}>
         <button className={style.button} onClick={handleInsertActive}>
           {insertActive === false ? "Add new item" : "Close"}

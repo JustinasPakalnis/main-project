@@ -33,7 +33,7 @@ export function ContextWrapper(props) {
   const handleFieldClear = () => {
     setItem(initialContext.item);
   };
-  // When click UPDATE the field get filled with selected items data
+  // When click UPDATE ITEM the field get filled with selected item data
   useEffect(() => {
     const foundItem = items.find((s) => s.id === itemID);
     if (foundItem) {

@@ -1,0 +1,31 @@
+.StatsBar {
+  display: flex;
+  justify-content: space-between;
+  gap: 4rem;
+  padding: 0.5rem 1rem;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stat {
+  padding: 5px;
+  flex: 1;
+  text-align: center;
+  border-radius: 15px;
+  background-color: #343a4010;
+}
+
+.stat p {
+  font-size: 16px;
+  color: #343a40;
+}
+
+.stat p:first-child {
+  font-weight: bold;
+}
+
+.stat p:last-child {
+  font-size: 18px;
+  color: #333;
+}
