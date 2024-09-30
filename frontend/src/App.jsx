@@ -6,7 +6,7 @@ import { ContextWrapper } from "./context/GlobalContext";
 import { LoginWrapper } from "./context/LoginContext";
 import ProtectedRoute from "./components/protectedRoute/ProtectedRoute.jsx";
 import "./app.css";
-
+import MainPage from "./pages/MainPage.jsx";
 function App() {
   return (
     <>
@@ -16,14 +16,14 @@ function App() {
           <Routes>
             <Route path="/" element={<Login />} />
             <Route
-              path="/main"
+              path="/main/*"
               element={
                 <ContextWrapper>
-                  <ProtectedRoute element={List} />
+                  <ProtectedRoute element={MainPage} />
                 </ContextWrapper>
               }
             />
-            <Route path="*" element={<Navigate to="/" />} />
+            {/* <Route path="/main/*" element={<Navigate to="/" />} /> */}
           </Routes>
         </LoginWrapper>
       </BrowserRouter>

@@ -83,3 +83,6 @@
 .btnDelete:hover {
   background-color: #bd2015;
 }
+.flexContainer {
+  display: flex;
+}
