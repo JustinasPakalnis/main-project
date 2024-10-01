@@ -24,6 +24,12 @@ const NavBar = () => {
       >
         Personell
       </button>
+      <span
+        className={style.navLink}
+        onClick={() => navigate("/main/createNewUser")}
+      >
+        Create new USER
+      </span>
       <span className={style.navLink}>Active personnel(future)</span>
       <span className={style.navLink}>Former personnel(future)</span>
     </section>

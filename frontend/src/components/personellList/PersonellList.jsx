@@ -12,19 +12,19 @@ const PersonellList = () => {
             <div className={style.title}>
               <p>First Name</p>
               <p>Last Name</p>
-              <p>User Type</p>
-              <p>User Name</p>
+              <p>User status</p>
               <p>Password</p>
               <p>Email addres</p>
+              <p>User Type</p>
             </div>
             {users.map((users, index) => (
               <li className={style.listItem} key={users.id}>
                 <p>{users.firstName}</p>
                 <p>{users.lastName}</p>
-                <p>{users.type}</p>
-                <p>{users.username}</p>
+                <p>{users.userstatus}</p>
                 <p>{users.password}</p>
                 <p>{users.email}</p>
+                <p>{users.type}</p>
               </li>
             ))}
           </ul>

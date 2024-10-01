@@ -118,6 +118,25 @@ app.post("/api/login", (req, res) => {
   });
 });
 
+app.post("/users", (req, res) => {
+  const q =
+    "INSERT INTO users(`userstatus`, `password`, `type`, `firstName`, `lastName`, `email`) VALUES(?)";
+  console.log(req.body);
+
+  const values = [
+    req.body.userstatus,
+    req.body.password,
+    req.body.type,
+    req.body.firstName,
+    req.body.lastName,
+    req.body.email,
+  ];
+  db.query(q, [values], (err, data) => {
+    if (err) return res.json(err);
+    return res.json("User successfully registered");
+  });
+});
+
 app.listen(8800, () => {
   console.log("connected to backend");
 });

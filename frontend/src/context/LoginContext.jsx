@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 export const initialContext = {
-  isAuthenticated: false,
+  isAuthenticated: true,
   authorizedUserFirstName: "",
   authorizedUserLastName: "",
   message: null,
