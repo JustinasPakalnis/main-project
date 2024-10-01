@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 export const initialContext = {
   users: {
-    username: "sssss",
+    username: "",
     password: "",
     type: "",
     firstName: "",
