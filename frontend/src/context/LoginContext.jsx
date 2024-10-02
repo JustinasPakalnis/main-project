@@ -2,12 +2,14 @@ import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 export const initialContext = {
-  isAuthenticated: true,
+  isAuthenticated: false,
   authorizedUserFirstName: "",
   authorizedUserLastName: "",
+  darkTheme: false,
   message: null,
   handleAuthentication: () => {},
   handleLogin: () => {},
+  handleDarkThemeToggle: () => {},
 };
 export const LoginContext = createContext(initialContext);
 
@@ -16,6 +18,7 @@ export function LoginWrapper(props) {
   const [isAuthenticated, setIsAuthenticated] = useState(
     initialContext.isAuthenticated
   );
+  const [darkTheme, setdarkTheme] = useState(initialContext.darkTheme);
 
   const [authorizedUserFirstName, setAuthorizedUserFirstName] = useState(
     initialContext.authorizedUserFirstName
@@ -25,16 +28,20 @@ export function LoginWrapper(props) {
   );
   const [message, setMessage] = useState(initialContext.message);
 
+  const handleDarkThemeToggle = () => {
+    setdarkTheme(!darkTheme);
+  };
+
   const handleAuthentication = () => {
     setIsAuthenticated(true);
   };
 
-  const handleLogin = async (e, username, password) => {
+  const handleLogin = async (e, email, password) => {
     e.preventDefault();
 
     try {
       const response = await axios.post("http://localhost:8800/api/login", {
-        username: username,
+        email: email,
         password: password,
       });
 
@@ -58,6 +65,10 @@ export function LoginWrapper(props) {
       }
     } catch (error) {
       console.error("Login error:", error);
+      setMessage("LOGIN HAS BEEN DENIED!");
+      setTimeout(() => {
+        setMessage(null);
+      }, 3000);
     }
   };
   console.log(authorizedUserFirstName);
@@ -72,6 +83,8 @@ export function LoginWrapper(props) {
     message,
     authorizedUserFirstName,
     authorizedUserLastName,
+    handleDarkThemeToggle,
+    darkTheme,
   };
   return (
     <LoginContext.Provider value={value}>

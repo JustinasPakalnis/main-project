@@ -1,11 +1,12 @@
 import style from "./NavBar.module.css";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { LoginContext } from "../../context/LoginContext.jsx";
 const NavBar = () => {
   const navigate = useNavigate();
-
+  const { darkTheme } = useContext(LoginContext);
   return (
-    <section className={style.navigationContainer}>
+    <section className={style.navigationContainer} data-visible={darkTheme}>
       <span className={style.navigationTitle}>Navigation</span>
 
       <button

@@ -4,6 +4,7 @@ import { GlobalContext } from "../../context/GlobalContext";
 import Add from "../newItem/Add.jsx";
 import Update from "../newItem/Update.jsx";
 import SecondaryHeader from "../secondaryHeader/SecondaryHeader.jsx";
+import { LoginContext } from "../../context/LoginContext.jsx";
 const InventoryList = () => {
   const {
     items,
@@ -12,18 +13,18 @@ const InventoryList = () => {
     insertActive,
     handleUpdateActive,
   } = useContext(GlobalContext);
-
+  const { darkTheme } = useContext(LoginContext);
   return (
     <>
       <section>
         <SecondaryHeader></SecondaryHeader>
-        <div className={style.mainListContainer}>
+        <div className={style.mainListContainer} data-visible={darkTheme}>
           <button className={style.button} onClick={handleInsertActive}>
             {insertActive === false ? "Add new item" : "Close"}
           </button>
           <Add></Add>
           <Update></Update>
-          <div className={style.listContainer}>
+          <div className={style.listContainer} data-visible={darkTheme}>
             <ul className={style.list}>
               <div className={style.title}>
                 <p>Item</p>
@@ -33,7 +34,11 @@ const InventoryList = () => {
               </div>
 
               {items.map((item, index) => (
-                <li className={style.listItem} key={item.id}>
+                <li
+                  className={style.listItem}
+                  data-visible={darkTheme}
+                  key={item.id}
+                >
                   <p>{item.item}</p>
                   <p>{item.owner}</p>
                   <p>{item.location}</p>

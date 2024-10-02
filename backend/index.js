@@ -82,11 +82,13 @@ app.get("/users", (req, res) => {
 });
 
 app.post("/api/login", (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
+  console.log(email);
+  console.log(password);
 
-  const q = "SELECT * FROM main_project_database.users WHERE username = ?";
+  const q = "SELECT * FROM main_project_database.users WHERE email = ?";
 
-  db.query(q, [username], (err, data) => {
+  db.query(q, [email], (err, data) => {
     if (err) {
       console.error("Database error:", err);
       return res.status(500).json({ message: "Internal server error" });
@@ -103,7 +105,7 @@ app.post("/api/login", (req, res) => {
         message: "Login approved",
         user: {
           id: user.id,
-          username: user.username,
+          // username: user.username,
           firstName: user.firstName,
           lastName: user.lastName,
           email: user.email,

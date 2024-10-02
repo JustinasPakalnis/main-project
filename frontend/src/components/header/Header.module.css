@@ -32,3 +32,10 @@
 .headerUser {
   width: 300px;
 }
+.themeToggle {
+  height: 2rem;
+  width: 2rem;
+}
+.themeToggle[data-visible="true"] {
+  display: none;
+}

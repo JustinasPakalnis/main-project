@@ -3,23 +3,23 @@ import style from "./Login.module.css";
 import { LoginContext } from "../context/LoginContext";
 const Login = () => {
   const { handleLogin, message } = useContext(LoginContext);
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   return (
     <section className={style.loginContainer}>
       <form
         className={style.login}
-        onSubmit={(e) => handleLogin(e, username, password)}
+        onSubmit={(e) => handleLogin(e, email, password)}
       >
         <h2 className={style.title}>To acces you have to log in</h2>
         <div>
-          <label className={style.label}>Username: </label>
+          <label className={style.label}>User email: </label>
           <input
             className={style.field}
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>

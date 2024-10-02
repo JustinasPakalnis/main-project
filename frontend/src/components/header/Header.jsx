@@ -1,13 +1,30 @@
 import style from "./Header.module.css";
 import { LoginContext } from "../../context/LoginContext.jsx";
 import React, { useContext } from "react";
+import { BsFillMoonStarsFill } from "react-icons/bs";
+import { FaSun } from "react-icons/fa6";
 const Header = () => {
-  const { authorizedUserFirstName, authorizedUserLastName } =
-    useContext(LoginContext);
+  const {
+    authorizedUserFirstName,
+    authorizedUserLastName,
+    darkTheme,
+    handleDarkThemeToggle,
+  } = useContext(LoginContext);
 
   return (
     <header className={style.headerContainer}>
-      <div className={style.headerUser}></div>
+      <div>
+        <BsFillMoonStarsFill
+          onClick={handleDarkThemeToggle}
+          className={style.themeToggle}
+          data-visible={darkTheme}
+        />
+        <FaSun
+          onClick={handleDarkThemeToggle}
+          className={style.themeToggle}
+          data-visible={!darkTheme}
+        />
+      </div>
       <div className={style.headerContent}>
         <h1>Justinas Pakalnis</h1>
         <p>FullStack Developer</p>
