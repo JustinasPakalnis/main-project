@@ -19,7 +19,6 @@ export const UserListContext = createContext(initialContext);
 export function UserListWrapper(props) {
   const [users, setUsers] = useState(initialContext.users);
   const [userTemplate, setUserTemplate] = useState(initialContext.users);
-  console.log(userTemplate);
 
   const fetchAllUsers = async () => {
     try {
@@ -34,8 +33,6 @@ export function UserListWrapper(props) {
   }, []);
 
   const handleInputChange = (e) => {
-    console.log(e);
-
     setUserTemplate((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
@@ -49,7 +46,6 @@ export function UserListWrapper(props) {
       console.log(err);
     }
   };
-  console.log(userTemplate);
 
   const value = {
     users,
