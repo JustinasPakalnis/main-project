@@ -5,7 +5,7 @@ import SecondaryHeader from "../components/secondaryHeader/SecondaryHeader.jsx";
 import NavBar from "../components/navBar/NavBar.jsx";
 import InventoryList from "../components/list/List.jsx";
 import PersonellList from "../components/personellList/PersonellList.jsx";
-import RegistrationTemplate from "../components/RegistrationTemplate/RegistrationTemplate.jsx";
+import RegistrationTemplate from "../components/registrationTemplate/RegistrationTemplate.jsx";
 import style from "./Main.module.css";
 const MainPage = () => {
   return (
