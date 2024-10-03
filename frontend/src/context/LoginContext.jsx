@@ -86,7 +86,7 @@ export function LoginWrapper(props) {
   // console.log(authorizedUserFirstName);
   // console.log(authorizedUserLastName);
 
-  console.log("Is it authentificated?", isAuthenticated);
+  console.log("Is user authentificated?", isAuthenticated);
 
   const value = {
     isAuthenticated,

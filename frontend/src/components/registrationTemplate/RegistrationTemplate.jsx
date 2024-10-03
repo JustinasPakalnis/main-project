@@ -42,7 +42,7 @@ const RegistrationTemplate = () => {
             onChange={handleInputChange}
             required
           >
-            <option value="" disabled selected>
+            <option value="" disabled>
               Select User Status
             </option>
             <option value="Employee">Employee</option>
@@ -72,7 +72,7 @@ const RegistrationTemplate = () => {
             onChange={handleInputChange}
             required
           >
-            <option value="" disabled selected>
+            <option value="" disabled>
               Select type
             </option>
             <option value="User">User</option>

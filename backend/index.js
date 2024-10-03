@@ -81,13 +81,19 @@ app.put("/inventory/:id", (req, res) => {
 });
 
 app.get("/users", (req, res) => {
-  const q = "SELECT * FROM main_project_database.users";
+  const q =
+    "SELECT id, userstatus, type, firstName, lastName, email FROM main_project_database.users";
+
   db.query(q, (err, data) => {
     if (err) {
-      console.log(err);
-      return res.json(err);
+      console.error(err);
+      return res.status(500).json({
+        message: "An error occurred while fetching users.",
+        error: err,
+      });
     }
-    return res.json(data);
+
+    return res.status(200).json(data);
   });
 });
 

@@ -46,6 +46,11 @@ export function UserListWrapper(props) {
   useEffect(function () {
     fetchAllUsers();
     fetchAllUsersFullNames();
+    setUserTemplate(initialContext.userTemplate);
+  }, []);
+
+  useEffect(function () {
+    setUserTemplate(initialContext.userTemplate);
   }, []);
 
   const handleInputChange = (e) => {

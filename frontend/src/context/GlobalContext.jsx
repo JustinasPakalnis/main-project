@@ -8,6 +8,7 @@ export const initialContext = {
   insertActive: false,
   updateActive: false,
   itemID: null,
+  selectedMenu: 0,
   item: {
     item: "",
     owner: "",
@@ -45,6 +46,7 @@ export function ContextWrapper(props) {
   );
   const [remowedItems, setRemowedItems] = useState(initialContext.remowedItems);
   const [visibleItems, setVisibleItems] = useState(items);
+  const [selectedMenu, setSelectedMenu] = useState(initialContext.selectedMenu);
   // ITEM array is filled with data ant first page opening
   useEffect(function () {
     fetchAllItems();
@@ -69,6 +71,7 @@ export function ContextWrapper(props) {
     handleFieldClear();
     setUpdateActive(false);
     setinsertActive(!insertActive);
+    setSelectedMenu(1);
   };
 
   const handleUpdateActive = (id) => {
@@ -142,6 +145,7 @@ export function ContextWrapper(props) {
       setError(true);
     }
   };
+  console.log(selectedMenu);
 
   // ITEM filters array is filled with data ant first page opening
   useEffect(
@@ -177,6 +181,8 @@ export function ContextWrapper(props) {
     activeItems,
     transferItems,
     remowedItems,
+    selectedMenu,
+    setSelectedMenu,
   };
   return (
     <GlobalContext.Provider value={value}>

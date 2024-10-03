@@ -13,7 +13,7 @@ const PersonellList = () => {
               <p>First Name</p>
               <p>Last Name</p>
               <p>User status</p>
-              <p>Password</p>
+
               <p>Email addres</p>
               <p>User Type</p>
             </div>
@@ -22,7 +22,6 @@ const PersonellList = () => {
                 <p>{users.firstName}</p>
                 <p>{users.lastName}</p>
                 <p>{users.userstatus}</p>
-                <p>{users.password}</p>
                 <p>{users.email}</p>
                 <p>{users.type}</p>
               </li>
