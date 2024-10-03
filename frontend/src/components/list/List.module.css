@@ -6,37 +6,17 @@
 
 .listContainer {
   width: 1200px;
-  padding: 0 50px;
-  border-radius: 8px;
+  padding: 0 20px;
+
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   background-color: #fff;
-}
-.mainListContainer[data-visible="true"] {
-  background-color: #21241fab;
-}
-.listContainer[data-visible="true"] {
-  background-color: #21241fab;
-  color: rgba(224, 196, 196, 0.678);
-}
-.addItem {
-  background-color: #4caf50;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-  margin-bottom: 20px;
-}
-
-.addItem:hover {
-  background-color: #45a049;
 }
 
 .list {
   list-style-type: none;
   padding: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .title {
@@ -45,56 +25,44 @@
   padding: 15px;
   border-bottom: 2px solid #944c4c;
   margin-bottom: 10px;
+  gap: 0.25rem;
 }
 .title p {
-  width: 220px;
+  width: 140px;
 }
 .listItem {
   display: flex;
-  justify-content: space-between;
+  gap: 0.5rem;
   align-items: center;
   padding: 0 15px;
-  border-bottom: 1px solid #f1f1f1;
+
   transition: background-color 0.3s ease;
+  height: 3rem;
 }
-.listItem[data-visible="true"] {
-  border-bottom: 1px solid #352828;
+.listItem2 {
+  background-color: #f8f7f7f1;
 }
 .listItem:hover {
   background-color: #f9f9f9;
-}
-.listItem:hover[data-visible="true"] {
-  background-color: #3d2929;
-  border-radius: 10px;
 }
 
 .listItem p {
   width: 200px;
 }
-.button {
-  text-decoration: none;
-  background-color: #3e7a16;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 15px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin: 5px;
-}
-.btnDelete {
-  background-color: #f44336;
-}
 
-.button:hover {
-  background-color: #22460b;
-  transform: translateY(-2px);
+.buttonBlock {
+  display: flex;
+  gap: 0.5rem;
 }
-.btnDelete:hover {
-  background-color: #bd2015;
+.button {
+  background-color: #f1e9e9;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.button:hover {
+  text-decoration: underline;
 }
 .flexContainer {
   display: flex;

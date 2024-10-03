@@ -2,14 +2,16 @@ import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 export const initialContext = {
-  isAuthenticated: false,
+  isAuthenticated: true,
   authorizedUserFirstName: "",
   authorizedUserLastName: "",
   darkTheme: false,
+  loginMessage: false,
   message: null,
   handleAuthentication: () => {},
   handleLogin: () => {},
   handleDarkThemeToggle: () => {},
+  handleLoginMessage: () => {},
 };
 export const LoginContext = createContext(initialContext);
 
@@ -27,6 +29,7 @@ export function LoginWrapper(props) {
     initialContext.authorizedUserLastName
   );
   const [message, setMessage] = useState(initialContext.message);
+  const [loginMessage, setLoginMessage] = useState(initialContext.loginMessage);
 
   const handleDarkThemeToggle = () => {
     setdarkTheme(!darkTheme);
@@ -34,6 +37,9 @@ export function LoginWrapper(props) {
 
   const handleAuthentication = () => {
     setIsAuthenticated(true);
+  };
+  const handleLoginMessage = () => {
+    setLoginMessage(false);
   };
 
   const handleLogin = async (e, email, password) => {
@@ -62,12 +68,18 @@ export function LoginWrapper(props) {
         setTimeout(() => {
           setMessage(null);
         }, 3000);
+        setTimeout(() => {
+          setLoginMessage(true);
+        }, 3000);
       }
     } catch (error) {
       console.error("Login error:", error);
       setMessage("LOGIN HAS BEEN DENIED!");
       setTimeout(() => {
         setMessage(null);
+      }, 3000);
+      setTimeout(() => {
+        setLoginMessage(true);
       }, 3000);
     }
   };
@@ -85,6 +97,8 @@ export function LoginWrapper(props) {
     authorizedUserLastName,
     handleDarkThemeToggle,
     darkTheme,
+    loginMessage,
+    handleLoginMessage,
   };
   return (
     <LoginContext.Provider value={value}>

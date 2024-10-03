@@ -31,16 +31,22 @@ app.get("/inventory", (req, res) => {
 
 app.post("/inventory", (req, res) => {
   const q =
-    "INSERT INTO inventory(`item`, `owner`, `location`, `value`) VALUES(?)";
+    "INSERT INTO inventory(`item`, `owner`, `location`, `value`, `status`, `createdate`, `comment`, `condition`) VALUES(?)";
   const values = [
     req.body.item,
     req.body.owner,
     req.body.location,
     req.body.value,
+    req.body.status,
+    req.body.createdate,
+    req.body.comment,
+    req.body.condition,
   ];
+  console.log(req.body);
+
   db.query(q, [values], (err, data) => {
     if (err) return res.json(err);
-    return res.json("inventory buvo pagaminta");
+    return res.json("Inventory buvo pagaminta");
   });
 });
 
@@ -57,12 +63,16 @@ app.delete("/inventory/:id", (req, res) => {
 app.put("/inventory/:id", (req, res) => {
   const inventoryId = req.params.id;
   const q =
-    "UPDATE inventory SET `item` = ?, `owner` = ?, `location` = ?, `value` = ? WHERE id =?";
+    "UPDATE inventory SET `item` = ?, `owner` = ?, `location` = ?, `value` = ?, `status` = ?, `createdate` = ?, `comment` = ?, `condition` = ? WHERE id = ?";
   const values = [
     req.body.item,
     req.body.owner,
     req.body.location,
     req.body.value,
+    req.body.status,
+    req.body.createdate,
+    req.body.comment,
+    req.body.condition,
   ];
   db.query(q, [...values, inventoryId], (err, data) => {
     if (err) return res.json(err);
@@ -72,6 +82,17 @@ app.put("/inventory/:id", (req, res) => {
 
 app.get("/users", (req, res) => {
   const q = "SELECT * FROM main_project_database.users";
+  db.query(q, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
+app.get("/usersFullNames", (req, res) => {
+  const q = "SELECT CONCAT(firstName, ' ', lastName) AS fullName FROM users;";
   db.query(q, (err, data) => {
     if (err) {
       console.log(err);

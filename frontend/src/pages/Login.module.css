@@ -5,7 +5,8 @@
 }
 
 .login {
-  height: 500px;
+  min-height: 500px;
+  max-height: 800px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,6 +18,7 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   background-color: #f9f9f9;
   gap: 3rem;
+  transition: min-height 0.3s ease;
 }
 
 .label {
@@ -70,4 +72,28 @@
   margin-top: 15px;
   color: red;
   font-weight: bold;
+
+  background-color: rgba(128, 128, 128, 0.418);
+  border-radius: 15px;
+  padding: 1rem;
+}
+.loginMessage {
+  background-color: rgba(128, 128, 128, 0.507);
+  border-radius: 1.5rem 0.5rem 1.5rem 1.5rem;
+  text-align: center;
+  padding: 1rem;
+  position: relative;
+}
+.loginMessage[data-message="false"] {
+  display: none;
+}
+.loginClose {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+.loginClose:hover {
+  transform: scale(1.4);
 }

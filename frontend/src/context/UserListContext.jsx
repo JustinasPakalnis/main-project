@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 export const initialContext = {
   users: [],
+  usersFullNames: [],
   userTemplate: {
     userstatus: "",
     password: "",
@@ -14,11 +15,15 @@ export const initialContext = {
   fetchAllUsers: () => {},
   handleInputChange: () => {},
   handleCreateUser: () => {},
+  fetchAllUsersFullNames: () => {},
 };
 export const UserListContext = createContext(initialContext);
 export function UserListWrapper(props) {
   const [users, setUsers] = useState(initialContext.users);
   const [userTemplate, setUserTemplate] = useState(initialContext.users);
+  const [usersFullNames, setUsersFullNames] = useState(
+    initialContext.usersFullNames
+  );
 
   const fetchAllUsers = async () => {
     try {
@@ -28,8 +33,19 @@ export function UserListWrapper(props) {
       console.log(err);
     }
   };
+
+  const fetchAllUsersFullNames = async () => {
+    try {
+      const res = await axios.get("http://localhost:8800/usersFullNames");
+      setUsersFullNames(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(function () {
     fetchAllUsers();
+    fetchAllUsersFullNames();
   }, []);
 
   const handleInputChange = (e) => {
@@ -52,6 +68,7 @@ export function UserListWrapper(props) {
     handleInputChange,
     userTemplate,
     handleCreateUser,
+    usersFullNames,
   };
   return (
     <UserListContext.Provider value={value}>

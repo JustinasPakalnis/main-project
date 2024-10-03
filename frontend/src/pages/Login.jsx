@@ -1,8 +1,10 @@
 import React, { useState, useContext } from "react";
 import style from "./Login.module.css";
 import { LoginContext } from "../context/LoginContext";
+import { IoCloseSharp } from "react-icons/io5";
 const Login = () => {
-  const { handleLogin, message } = useContext(LoginContext);
+  const { handleLogin, message, loginMessage, handleLoginMessage } =
+    useContext(LoginContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -36,7 +38,14 @@ const Login = () => {
         <button className={style.button} type="submit">
           Login
         </button>
-        <p className={style.message}>{message}</p>
+        {message && <p className={style.message}>{message}</p>}
+        <div className={style.loginMessage} data-message={loginMessage}>
+          <p>If you want to create account, please contact customer support!</p>
+          <IoCloseSharp
+            onClick={handleLoginMessage}
+            className={style.loginClose}
+          />
+        </div>
       </form>
     </section>
   );

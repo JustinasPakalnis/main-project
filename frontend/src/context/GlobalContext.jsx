@@ -9,7 +9,11 @@ export const initialContext = {
     item: "",
     owner: "",
     location: "",
-    value: null,
+    value: "",
+    status: "",
+    createdate: "",
+    comment: "",
+    condition: "",
   },
   fetchAllItems: () => {},
   handleDelete: () => {},
@@ -71,6 +75,9 @@ export function ContextWrapper(props) {
       console.log(err);
     }
   };
+
+  console.log(items);
+
   // ITEM array is filled with data ant first page opening
   useEffect(function () {
     fetchAllItems();
@@ -91,6 +98,7 @@ export function ContextWrapper(props) {
       await axios.put("http://localhost:8800/inventory/" + itemID, item);
       fetchAllItems();
       handleUpdateActiveOFF();
+      handleFieldClear();
     } catch (err) {
       console.log(err);
     }
@@ -100,6 +108,7 @@ export function ContextWrapper(props) {
     e.preventDefault();
     try {
       await axios.post("http://localhost:8800/inventory", item);
+
       fetchAllItems();
     } catch (err) {
       console.log(err);

@@ -19,23 +19,26 @@ const InventoryList = () => {
       <section>
         <SecondaryHeader></SecondaryHeader>
         <div className={style.mainListContainer} data-visible={darkTheme}>
-          <button className={style.button} onClick={handleInsertActive}>
-            {insertActive === false ? "Add new item" : "Close"}
-          </button>
           <Add></Add>
           <Update></Update>
           <div className={style.listContainer} data-visible={darkTheme}>
+            <div className={style.title}>
+              <p>Item</p>
+              <p>Owner</p>
+              <p>Location</p>
+              <p>Value</p>
+              <p>Date created</p>
+              <p>Comment</p>
+              <p>Condition</p>
+            </div>
             <ul className={style.list}>
-              <div className={style.title}>
-                <p>Item</p>
-                <p>Owner</p>
-                <p>Location</p>
-                <p>Value</p>
-              </div>
-
               {items.map((item, index) => (
                 <li
-                  className={style.listItem}
+                  className={
+                    index % 2 === 0
+                      ? style.listItem
+                      : `${style.listItem} ${style.listItem2}`
+                  }
                   data-visible={darkTheme}
                   key={item.id}
                 >
@@ -43,18 +46,23 @@ const InventoryList = () => {
                   <p>{item.owner}</p>
                   <p>{item.location}</p>
                   <p>{item.value.toFixed(2)} Eur</p>
-                  <button
-                    className={`${style.button} ${style.btnDelete}`}
-                    onClick={() => handleDelete(item.id)}
-                  >
-                    Delete
-                  </button>
-                  <button
-                    className={style.button}
-                    onClick={() => handleUpdateActive(item.id)}
-                  >
-                    Update
-                  </button>
+                  <p>{new Date(item.createdate).toLocaleDateString()}</p>
+                  <p>{item.comment}</p>
+                  <p>{item.condition}</p>
+                  <div className={style.buttonBlock}>
+                    <button
+                      className={style.button}
+                      onClick={() => handleUpdateActive(item.id)}
+                    >
+                      Update
+                    </button>
+                    <button
+                      className={`${style.button} ${style.btnDelete}`}
+                      onClick={() => handleDelete(item.id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </li>
               ))}
             </ul>

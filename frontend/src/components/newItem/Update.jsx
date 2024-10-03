@@ -1,59 +1,25 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
-import style from "./Add.module.css";
+import AddUpdateTemplate from "./AddUpdateTemplate.jsx";
+import style from "./AddUpdate.module.css";
 const Update = () => {
-  const {
-    items,
-    item,
-    handleInputChange,
-    updateActive,
-    itemID,
-    handleUpdateActiveOFF,
-    handleUpdateClick,
-  } = useContext(GlobalContext);
-
+  const { item, updateActive, handleUpdateActiveOFF, handleUpdateClick } =
+    useContext(GlobalContext);
   return (
     <div
       className={`${style.form} ${style.formUpdate}`}
       data-active={updateActive}
     >
       <h1>Update selected Item</h1>
-      <div className={style.formRow}>
-        <input
-          value={item.item}
-          type="text"
-          placeholder="item"
-          onChange={handleInputChange}
-          name="item"
-        />
-        <input
-          value={item.owner}
-          type="text"
-          placeholder="owner"
-          onChange={handleInputChange}
-          name="owner"
-        />
-        <input
-          value={item.location}
-          type="text"
-          placeholder="location"
-          onChange={handleInputChange}
-          name="location"
-        />
-        <input
-          value={item.value || ""}
-          type="number"
-          placeholder="value"
-          onChange={handleInputChange}
-          name="value"
-        />
+      <AddUpdateTemplate />
+      <div className={style.btnBlock}>
         <button
-          className="formButton"
+          className={style.updateButton}
           onClick={(e) => handleUpdateClick(e, item)}
         >
           UPDATE
         </button>
-        <button className="formButton" onClick={handleUpdateActiveOFF}>
+        <button className={style.updateButton} onClick={handleUpdateActiveOFF}>
           CANCEL
         </button>
       </div>

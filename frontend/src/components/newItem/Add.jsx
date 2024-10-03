@@ -1,56 +1,39 @@
-import React, { useContext, useState } from "react";
-import axios from "axios";
+import React, { useContext } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
-import style from "./Add.module.css";
+import { UserListContext } from "../../context/UserListContext";
+import AddUpdateTemplate from "./AddUpdateTemplate.jsx";
+import style from "./AddUpdate.module.css";
 const Add = () => {
   const {
-    fetchAllItems,
     insertActive,
-    handleInputChange,
-    item,
     handleFieldClear,
     handleInsertClick,
+    handleInsertActive,
   } = useContext(GlobalContext);
+  const { usersFullNames } = useContext(UserListContext);
+  console.log(usersFullNames);
 
   return (
-    <div
-      className={`${style.form} ${style.formInsert}`}
-      data-active={insertActive}
-    >
-      <h1>Insert New Item</h1>
-      <div className={style.formRow}>
-        <input
-          type="text"
-          placeholder="item"
-          onChange={handleInputChange}
-          name="item"
-          value={item.item}
-        />
-        <input
-          type="text"
-          placeholder="owner"
-          onChange={handleInputChange}
-          name="owner"
-          value={item.owner}
-        />
-        <input
-          type="text"
-          placeholder="location"
-          onChange={handleInputChange}
-          name="location"
-          value={item.location}
-        />
-        <input
-          type="number"
-          placeholder="value"
-          onChange={handleInputChange}
-          name="value"
-          value={item.value || ""}
-        />
-        <button onClick={handleInsertClick}>Add</button>
-        <button onClick={handleFieldClear}>Clear</button>
+    <>
+      <div
+        className={`${style.form} ${style.formInsert}`}
+        data-active={insertActive}
+      >
+        <h1>Create new item</h1>
+        <AddUpdateTemplate />
+        <div className={style.btnBlock}>
+          <button className={style.updateButton} onClick={handleInsertClick}>
+            Create
+          </button>
+          <button className={style.updateButton} onClick={handleFieldClear}>
+            Clear
+          </button>
+          <button className={style.updateButton} onClick={handleInsertActive}>
+            Cancel
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
