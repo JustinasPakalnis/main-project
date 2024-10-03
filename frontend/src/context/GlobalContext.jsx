@@ -183,6 +183,8 @@ export function ContextWrapper(props) {
     remowedItems,
     selectedMenu,
     setSelectedMenu,
+    setinsertActive,
+    setUpdateActive,
   };
   return (
     <GlobalContext.Provider value={value}>

@@ -14,6 +14,8 @@ const NavBar = () => {
     handleTranfsersItems,
     selectedMenu,
     setSelectedMenu,
+    setinsertActive,
+    setUpdateActive,
   } = useContext(GlobalContext);
 
   return (
@@ -27,6 +29,8 @@ const NavBar = () => {
           navigate("/main/Inventory");
           fetchAllItems();
           setSelectedMenu(1);
+          setinsertActive(false);
+          setUpdateActive(false);
         }}
       >
         Inventory
