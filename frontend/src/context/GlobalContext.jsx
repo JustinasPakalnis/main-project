@@ -2,6 +2,9 @@ import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 export const initialContext = {
   items: [],
+  activeItems: [],
+  transferItems: [],
+  remowedItems: [],
   insertActive: false,
   updateActive: false,
   itemID: null,
@@ -24,6 +27,9 @@ export const initialContext = {
   handleInputChange: () => {},
   handleFieldClear: () => {},
   handleInsertClick: () => {},
+  handleActiveItems: () => {},
+  handleRemowedItems: () => {},
+  handleTranfsersItems: () => {},
 };
 export const GlobalContext = createContext(initialContext);
 
@@ -33,6 +39,16 @@ export function ContextWrapper(props) {
   const [insertActive, setinsertActive] = useState(initialContext.insertActive);
   const [updateActive, setUpdateActive] = useState(initialContext.updateActive);
   const [itemID, setitemID] = useState(initialContext.itemID);
+  const [activeItems, setActiveItems] = useState(initialContext.activeItems);
+  const [transferItems, setTransferItems] = useState(
+    initialContext.transferItems
+  );
+  const [remowedItems, setRemowedItems] = useState(initialContext.remowedItems);
+  const [visibleItems, setVisibleItems] = useState(items);
+  // ITEM array is filled with data ant first page opening
+  useEffect(function () {
+    fetchAllItems();
+  }, []);
   //Clear input field
   const handleFieldClear = () => {
     setItem(initialContext.item);
@@ -65,6 +81,23 @@ export function ContextWrapper(props) {
     handleFieldClear();
     setUpdateActive(false);
   };
+  const handleActiveItems = () => {
+    setUpdateActive(false);
+    setinsertActive(false);
+    handleFieldClear();
+  };
+
+  const handleRemowedItems = () => {
+    setUpdateActive(false);
+    setinsertActive(false);
+    handleFieldClear();
+  };
+
+  const handleTranfsersItems = () => {
+    setUpdateActive(false);
+    setinsertActive(false);
+    handleFieldClear();
+  };
 
   // Get data from SQL
   const fetchAllItems = async () => {
@@ -76,12 +109,6 @@ export function ContextWrapper(props) {
     }
   };
 
-  console.log(items);
-
-  // ITEM array is filled with data ant first page opening
-  useEffect(function () {
-    fetchAllItems();
-  }, []);
   // Remowe selected item
   const handleDelete = async (id) => {
     try {
@@ -115,6 +142,17 @@ export function ContextWrapper(props) {
       setError(true);
     }
   };
+
+  // ITEM filters array is filled with data ant first page opening
+  useEffect(
+    function () {
+      setActiveItems(items.filter((item) => item.status === "Active"));
+      setRemowedItems(items.filter((item) => item.status === "Remowed"));
+      setTransferItems(items.filter((item) => item.status === "Transfer"));
+      setVisibleItems(items); // Show all items by defaul
+    },
+    [items]
+  );
   const value = {
     items,
     item,
@@ -132,6 +170,13 @@ export function ContextWrapper(props) {
     setItem,
     handleFieldClear,
     handleInsertClick,
+    handleActiveItems,
+    handleRemowedItems,
+    handleTranfsersItems,
+    visibleItems,
+    activeItems,
+    transferItems,
+    remowedItems,
   };
   return (
     <GlobalContext.Provider value={value}>

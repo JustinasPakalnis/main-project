@@ -83,8 +83,8 @@ export function LoginWrapper(props) {
       }, 3000);
     }
   };
-  console.log(authorizedUserFirstName);
-  console.log(authorizedUserLastName);
+  // console.log(authorizedUserFirstName);
+  // console.log(authorizedUserLastName);
 
   console.log("Is it authentificated?", isAuthenticated);
 

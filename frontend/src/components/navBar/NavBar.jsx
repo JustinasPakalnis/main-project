@@ -6,24 +6,57 @@ import { GlobalContext } from "../../context/GlobalContext";
 const NavBar = () => {
   const navigate = useNavigate();
   const { darkTheme } = useContext(LoginContext);
-  const { handleInsertActive } = useContext(GlobalContext);
+  const {
+    handleInsertActive,
+    fetchAllItems,
+    handleActiveItems,
+    handleRemowedItems,
+    handleTranfsersItems,
+  } = useContext(GlobalContext);
   return (
     <section className={style.navigationContainer} data-visible={darkTheme}>
       <span className={style.navigationTitle}>Navigation</span>
 
       <button
         className={style.navButton}
-        onClick={() => navigate("/main/Inventory")}
+        onClick={() => {
+          navigate("/main/Inventory");
+          fetchAllItems();
+        }}
       >
         Inventory
       </button>
       <span onClick={handleInsertActive} className={style.navLink}>
         Create item
       </span>
-      <span className={style.navLink}>Active items(future)</span>
-      <span className={style.navLink}>Retired items(future)</span>
-      <span className={style.navLink}>Item transfers(future)</span>
-      <span className={style.navLink}>History logs(future)</span>
+      <span
+        onClick={() => {
+          navigate("/main/Inventory/active");
+          handleActiveItems();
+        }}
+        className={style.navLink}
+      >
+        Active items
+      </span>
+      <span
+        onClick={() => {
+          navigate("/main/Inventory/remowed");
+          handleRemowedItems();
+        }}
+        className={style.navLink}
+      >
+        Retired items
+      </span>
+      <span
+        onClick={() => {
+          navigate("/main/Inventory/transfers");
+          handleTranfsersItems();
+        }}
+        className={style.navLink}
+      >
+        Item transfers
+      </span>
+
       <button
         className={style.navButton}
         onClick={() => navigate("/main/Personell")}

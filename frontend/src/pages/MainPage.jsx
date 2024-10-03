@@ -6,8 +6,11 @@ import NavBar from "../components/navBar/NavBar.jsx";
 import InventoryList from "../components/list/List.jsx";
 import PersonellList from "../components/personellList/PersonellList.jsx";
 import RegistrationTemplate from "../components/registrationTemplate/RegistrationTemplate.jsx";
+import { GlobalContext } from "../context/GlobalContext";
 import style from "./Main.module.css";
 const MainPage = () => {
+  const { visibleItems, activeItems, transferItems, remowedItems } =
+    useContext(GlobalContext);
   return (
     <>
       <section className={style.mainCotainer}>
@@ -15,7 +18,22 @@ const MainPage = () => {
         <UserListWrapper>
           <Routes>
             <Route path="/" element={<Navigate to="/main/Inventory" />} />
-            <Route path="/Inventory" element={<InventoryList />} />
+            <Route
+              path="/Inventory"
+              element={<InventoryList props={visibleItems} />}
+            />
+            <Route
+              path="/Inventory/active"
+              element={<InventoryList props={activeItems} />}
+            />
+            <Route
+              path="/Inventory/remowed"
+              element={<InventoryList props={remowedItems} />}
+            />
+            <Route
+              path="/Inventory/transfers"
+              element={<InventoryList props={transferItems} />}
+            />
             <Route path="/Personell" element={<PersonellList />} />
             <Route path="/createNewUser" element={<RegistrationTemplate />} />
           </Routes>

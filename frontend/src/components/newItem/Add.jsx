@@ -10,9 +10,6 @@ const Add = () => {
     handleInsertClick,
     handleInsertActive,
   } = useContext(GlobalContext);
-  const { usersFullNames } = useContext(UserListContext);
-  console.log(usersFullNames);
-
   return (
     <>
       <div

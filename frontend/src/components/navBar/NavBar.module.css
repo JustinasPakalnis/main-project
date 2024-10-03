@@ -5,6 +5,7 @@
   background-color: #f0f0f0;
   padding: 15px;
   width: 250px;
+  height: 100vh;
 }
 .navigationContainer[data-visible="true"] {
   background-color: #333333b2;
