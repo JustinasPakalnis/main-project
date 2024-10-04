@@ -187,8 +187,6 @@ export function ContextWrapper(props) {
     setSelectedMenu,
     setinsertActive,
     setUpdateActive,
-    userComment,
-    handlefieldChange,
   };
   return (
     <GlobalContext.Provider value={value}>
