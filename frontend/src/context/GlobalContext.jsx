@@ -19,6 +19,7 @@ export const initialContext = {
     comment: "",
     condition: "",
   },
+
   fetchAllItems: () => {},
   handleDelete: () => {},
   handleInsertActive: () => {},
@@ -47,6 +48,7 @@ export function ContextWrapper(props) {
   const [remowedItems, setRemowedItems] = useState(initialContext.remowedItems);
   const [visibleItems, setVisibleItems] = useState(items);
   const [selectedMenu, setSelectedMenu] = useState(initialContext.selectedMenu);
+
   // ITEM array is filled with data ant first page opening
   useEffect(function () {
     fetchAllItems();
@@ -66,6 +68,7 @@ export function ContextWrapper(props) {
   const handleInputChange = (e) => {
     setItem((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
+
   // INSERT NEW ITEM AND UPDATE ITEM WINDOW
   const handleInsertActive = () => {
     handleFieldClear();
@@ -145,7 +148,6 @@ export function ContextWrapper(props) {
       setError(true);
     }
   };
-  console.log(selectedMenu);
 
   // ITEM filters array is filled with data ant first page opening
   useEffect(
@@ -185,6 +187,8 @@ export function ContextWrapper(props) {
     setSelectedMenu,
     setinsertActive,
     setUpdateActive,
+    userComment,
+    handlefieldChange,
   };
   return (
     <GlobalContext.Provider value={value}>

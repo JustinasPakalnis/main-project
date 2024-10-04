@@ -4,6 +4,7 @@ import axios from "axios";
 export const initialContext = {
   users: [],
   usersFullNames: [],
+  userComments: [],
   userTemplate: {
     userstatus: "",
     password: "",
@@ -12,10 +13,14 @@ export const initialContext = {
     lastName: "",
     email: "",
   },
+  userComment: "",
   fetchAllUsers: () => {},
   handleInputChange: () => {},
   handleCreateUser: () => {},
   fetchAllUsersFullNames: () => {},
+  handleCreateUserComment: () => {},
+  handlefieldChange: () => {},
+  fetchUserComments: () => {},
 };
 export const UserListContext = createContext(initialContext);
 export function UserListWrapper(props) {
@@ -24,6 +29,12 @@ export function UserListWrapper(props) {
   const [usersFullNames, setUsersFullNames] = useState(
     initialContext.usersFullNames
   );
+  const [userComment, setUserComment] = useState(initialContext.userComment);
+  const [userComments, setUserComments] = useState(initialContext.userComments);
+
+  const handlefieldChange = (e) => {
+    setUserComment(e.target.value);
+  };
 
   const fetchAllUsers = async () => {
     try {
@@ -67,6 +78,24 @@ export function UserListWrapper(props) {
       console.log(err);
     }
   };
+  const handleCreateUserComment = async (e, comment, id) => {
+    e.preventDefault();
+    try {
+      await axios.post(`http://localhost:8800/users/comment`, { id, comment });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchUserComments = async (id) => {
+    try {
+      const res = await axios.get(`http://localhost:8800/usercomments/${id}`);
+      setUserComments(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  console.log(userComments);
 
   const value = {
     users,
@@ -74,6 +103,11 @@ export function UserListWrapper(props) {
     userTemplate,
     handleCreateUser,
     usersFullNames,
+    handlefieldChange,
+    userComment,
+    handleCreateUserComment,
+    userComments,
+    fetchUserComments,
   };
   return (
     <UserListContext.Provider value={value}>

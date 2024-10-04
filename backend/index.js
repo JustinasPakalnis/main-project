@@ -166,6 +166,43 @@ app.post("/users", (req, res) => {
   });
 });
 
+app.post("/users/comment", (req, res) => {
+  const q = "INSERT INTO usercomment(`userID`, `comment`) VALUES(?) ";
+  console.log(req.body);
+
+  const values = [req.body.id, req.body.comment];
+
+  db.query(q, [values], (err, data) => {
+    if (err) return res.json(err);
+    return res.json("User successfully commented");
+  });
+});
+
+// app.delete("/inventory/:id", (req, res) => {
+//   const inventoryId = req.params.id;
+//   const q = "DELETE FROM inventory WHERE id = ?";
+//   db.query(q, [inventoryId], (err, data) => {
+//     if (err) return res.json(err);
+//     console.log("inventory buvo deletinta");
+//     return res.json("inventory buvo deletinta");
+//   });
+// });
+
+app.get("/usercomments/:id", (req, res) => {
+  const userId = req.params.id;
+  console.log(userId);
+  const q = "SELECT * FROM main_project_database.usercomment WHERE userId = ?";
+  console.log("Fetching comments for user ID:");
+
+  db.query(q, [userId], (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json(err);
+    }
+    return res.json(data);
+  });
+});
+
 app.listen(8800, () => {
   console.log("connected to backend");
 });
