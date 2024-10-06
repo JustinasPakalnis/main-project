@@ -5,6 +5,7 @@ export const initialContext = {
   users: [],
   usersFullNames: [],
   userComments: [],
+  userCommentMenuID: null,
   userTemplate: {
     userstatus: "",
     password: "",
@@ -21,6 +22,8 @@ export const initialContext = {
   handleCreateUserComment: () => {},
   handlefieldChange: () => {},
   fetchUserComments: () => {},
+  handleUserCommentMenu: () => {},
+  handleFieldClear: () => {},
 };
 export const UserListContext = createContext(initialContext);
 export function UserListWrapper(props) {
@@ -31,6 +34,9 @@ export function UserListWrapper(props) {
   );
   const [userComment, setUserComment] = useState(initialContext.userComment);
   const [userComments, setUserComments] = useState(initialContext.userComments);
+  const [userCommentMenuID, setUserCommentMenuID] = useState(
+    initialContext.userCommentMenuID
+  );
 
   const handlefieldChange = (e) => {
     setUserComment(e.target.value);
@@ -82,6 +88,8 @@ export function UserListWrapper(props) {
     e.preventDefault();
     try {
       await axios.post(`http://localhost:8800/users/comment`, { id, comment });
+      handleFieldClear();
+      setUserCommentMenuID(null);
     } catch (err) {
       console.log(err);
     }
@@ -96,7 +104,18 @@ export function UserListWrapper(props) {
     }
   };
   console.log(userComments);
+  const handleUserCommentMenu = (ID) => {
+    if (userCommentMenuID === ID) {
+      setUserCommentMenuID(null);
+      handleFieldClear();
+    } else {
+      setUserCommentMenuID(ID);
+    }
+  };
 
+  const handleFieldClear = (e) => {
+    setUserComment(initialContext.userComment);
+  };
   const value = {
     users,
     handleInputChange,
@@ -108,6 +127,8 @@ export function UserListWrapper(props) {
     handleCreateUserComment,
     userComments,
     fetchUserComments,
+    handleUserCommentMenu,
+    userCommentMenuID,
   };
   return (
     <UserListContext.Provider value={value}>

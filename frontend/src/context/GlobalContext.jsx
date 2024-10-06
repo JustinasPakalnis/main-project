@@ -9,6 +9,7 @@ export const initialContext = {
   updateActive: false,
   itemID: null,
   selectedMenu: 0,
+
   item: {
     item: "",
     owner: "",

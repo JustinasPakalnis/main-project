@@ -10,6 +10,8 @@ const PersonellList = () => {
     handleCreateUserComment,
     fetchUserComments,
     userComments,
+    handleUserCommentMenu,
+    userCommentMenuID,
   } = useContext(UserListContext);
 
   return (
@@ -33,7 +35,8 @@ const PersonellList = () => {
                 <p>{users.email}</p>
                 <p>{users.type}</p>
                 <input
-                  className={style.formField}
+                  className={style.commentBox}
+                  data-visible={userCommentMenuID === index}
                   value={userComment}
                   type="text"
                   placeholder="comment"
@@ -42,28 +45,43 @@ const PersonellList = () => {
                   required
                 />
                 <button
-                  onClick={(e) =>
-                    handleCreateUserComment(e, userComment, users.id)
-                  }
+                  onClick={() => handleUserCommentMenu(index)}
                   className={style.button}
                 >
-                  Comment
+                  {userCommentMenuID === index ? "Close" : "Comment"}
                 </button>
-                <button
-                  onClick={(e) => fetchUserComments(users.id)}
-                  className={style.button}
-                >
-                  Get
-                </button>
+                {userCommentMenuID === index && (
+                  <button
+                    onClick={(e) =>
+                      handleCreateUserComment(e, userComment, users.id)
+                    }
+                    className={style.button}
+                  >
+                    Send
+                  </button>
+                )}
+
+                {userCommentMenuID !== index && (
+                  <button
+                    onClick={(e) => fetchUserComments(users.id)}
+                    className={style.button}
+                  >
+                    Get
+                  </button>
+                )}
               </li>
             ))}
           </ul>
-          {userComments.map((userStuff, index) => (
-            <li className={style.listItem} key={userStuff.id}>
-              <p>{userStuff.commentDate.split("T").join(" ").slice(0, 16)}</p>
-              <p>{userStuff.comment}</p>
-            </li>
-          ))}
+          {userComments.length > 0 ? (
+            userComments.map((userStuff, index) => (
+              <li className={style.listItem} key={userStuff.id}>
+                <p>{userStuff.commentDate.split("T").join(" ").slice(0, 16)}</p>
+                <p>{userStuff.comment}</p>
+              </li>
+            ))
+          ) : (
+            <p>No comments available for this one</p>
+          )}
         </div>
       </section>
     </>
