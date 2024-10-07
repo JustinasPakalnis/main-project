@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 export const initialContext = {
   users: [],
+  userCommentID: null,
   usersFullNames: [],
   userComments: [],
-  userCommentMenuID: null,
+  userCommentFieldOpen: false,
   userTemplate: {
     userstatus: "",
     password: "",
@@ -24,6 +25,7 @@ export const initialContext = {
   fetchUserComments: () => {},
   handleUserCommentMenu: () => {},
   handleFieldClear: () => {},
+  handleUserCommentMenuClose: () => {},
 };
 export const UserListContext = createContext(initialContext);
 export function UserListWrapper(props) {
@@ -34,8 +36,12 @@ export function UserListWrapper(props) {
   );
   const [userComment, setUserComment] = useState(initialContext.userComment);
   const [userComments, setUserComments] = useState(initialContext.userComments);
-  const [userCommentMenuID, setUserCommentMenuID] = useState(
-    initialContext.userCommentMenuID
+
+  const [userCommentFieldOpen, setUserCommentFieldOpen] = useState(
+    initialContext.userCommentFieldOpen
+  );
+  const [userCommentID, setUserCommentID] = useState(
+    initialContext.userCommentID
   );
 
   const handlefieldChange = (e) => {
@@ -84,12 +90,21 @@ export function UserListWrapper(props) {
       console.log(err);
     }
   };
-  const handleCreateUserComment = async (e, comment, id) => {
+  const handleCreateUserComment = async (
+    e,
+    comment,
+    userCommentID,
+    authorizedUser
+  ) => {
     e.preventDefault();
     try {
-      await axios.post(`http://localhost:8800/users/comment`, { id, comment });
+      await axios.post(`http://localhost:8800/users/comment`, {
+        comment,
+        userCommentID,
+        authorizedUser,
+      });
       handleFieldClear();
-      setUserCommentMenuID(null);
+      setUserCommentFieldOpen(false);
     } catch (err) {
       console.log(err);
     }
@@ -103,17 +118,18 @@ export function UserListWrapper(props) {
       console.log(err);
     }
   };
-  console.log(userComments);
-  const handleUserCommentMenu = (ID) => {
-    if (userCommentMenuID === ID) {
-      setUserCommentMenuID(null);
-      handleFieldClear();
-    } else {
-      setUserCommentMenuID(ID);
-    }
+
+  const handleUserCommentMenu = (userCommentID) => {
+    setUserCommentID(userCommentID);
+    setUserCommentFieldOpen(true);
+    handleFieldClear();
+  };
+  const handleUserCommentMenuClose = () => {
+    setUserCommentFieldOpen(false);
+    handleFieldClear();
   };
 
-  const handleFieldClear = (e) => {
+  const handleFieldClear = () => {
     setUserComment(initialContext.userComment);
   };
   const value = {
@@ -128,7 +144,10 @@ export function UserListWrapper(props) {
     userComments,
     fetchUserComments,
     handleUserCommentMenu,
-    userCommentMenuID,
+
+    userCommentFieldOpen,
+    handleUserCommentMenuClose,
+    userCommentID,
   };
   return (
     <UserListContext.Provider value={value}>

@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { UserListContext } from "../../context/UserListContext";
 import { GlobalContext } from "../../context/GlobalContext";
+import { LoginContext } from "../../context/LoginContext";
 import style from "./PersonellList.module.css";
 const PersonellList = () => {
   const {
@@ -11,12 +12,56 @@ const PersonellList = () => {
     fetchUserComments,
     userComments,
     handleUserCommentMenu,
-    userCommentMenuID,
+    userCommentFieldOpen,
+    handleUserCommentMenuClose,
+    userCommentID,
   } = useContext(UserListContext);
 
+  const { authorizedUser } = useContext(LoginContext);
+  const selectedUser = users.find((user) => user.id === userCommentID);
   return (
     <>
       <section className={style.usersListContainer}>
+        <div className={style.commentBox} data-visible={userCommentFieldOpen}>
+          {selectedUser && (
+            <p>
+              Comment something about: {selectedUser.firstName}{" "}
+              {selectedUser.lastName}
+            </p>
+          )}
+          <textarea
+            className={style.inputComment}
+            value={userComment}
+            placeholder="Write your comment here"
+            onChange={handlefieldChange}
+            name="comment"
+            required
+          />
+          <span className={style.letterCount}>
+            Symbols left: {200 - userComment.length}
+          </span>
+          <div className={style.btnBlock}>
+            <button
+              onClick={(e) =>
+                handleCreateUserComment(
+                  e,
+                  userComment,
+                  userCommentID,
+                  authorizedUser
+                )
+              }
+              className={style.commentButton}
+            >
+              Send
+            </button>
+            <button
+              onClick={handleUserCommentMenuClose}
+              className={style.commentButton}
+            >
+              Close
+            </button>
+          </div>
+        </div>
         <div className={style.listContainer}>
           <ul className={style.list}>
             <div className={style.title}>
@@ -34,47 +79,26 @@ const PersonellList = () => {
                 <p>{users.userstatus}</p>
                 <p>{users.email}</p>
                 <p>{users.type}</p>
-                <input
-                  className={style.commentBox}
-                  data-visible={userCommentMenuID === index}
-                  value={userComment}
-                  type="text"
-                  placeholder="comment"
-                  onChange={handlefieldChange}
-                  name="comment"
-                  required
-                />
+
                 <button
-                  onClick={() => handleUserCommentMenu(index)}
+                  onClick={() => handleUserCommentMenu(users.id)}
                   className={style.button}
                 >
-                  {userCommentMenuID === index ? "Close" : "Comment"}
+                  Comment
                 </button>
-                {userCommentMenuID === index && (
-                  <button
-                    onClick={(e) =>
-                      handleCreateUserComment(e, userComment, users.id)
-                    }
-                    className={style.button}
-                  >
-                    Send
-                  </button>
-                )}
-
-                {userCommentMenuID !== index && (
-                  <button
-                    onClick={(e) => fetchUserComments(users.id)}
-                    className={style.button}
-                  >
-                    Get
-                  </button>
-                )}
+                <button
+                  onClick={(e) => fetchUserComments(users.id)}
+                  className={style.button}
+                >
+                  Get
+                </button>
               </li>
             ))}
           </ul>
           {userComments.length > 0 ? (
             userComments.map((userStuff, index) => (
               <li className={style.listItem} key={userStuff.id}>
+                <p>Commented by: {userStuff.author}</p>
                 <p>{userStuff.commentDate.split("T").join(" ").slice(0, 16)}</p>
                 <p>{userStuff.comment}</p>
               </li>

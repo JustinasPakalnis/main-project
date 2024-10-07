@@ -2,9 +2,9 @@ import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 export const initialContext = {
-  isAuthenticated: true,
-  authorizedUserFirstName: "",
-  authorizedUserLastName: "",
+  isAuthenticated: false,
+
+  authorizedUser: {},
   darkTheme: false,
   loginMessage: false,
   message: null,
@@ -22,14 +22,12 @@ export function LoginWrapper(props) {
   );
   const [darkTheme, setdarkTheme] = useState(initialContext.darkTheme);
 
-  const [authorizedUserFirstName, setAuthorizedUserFirstName] = useState(
-    initialContext.authorizedUserFirstName
-  );
-  const [authorizedUserLastName, setAuthorizedUserLastName] = useState(
-    initialContext.authorizedUserLastName
+  const [authorizedUser, setAuthorizedUser] = useState(
+    initialContext.authorizedUser
   );
   const [message, setMessage] = useState(initialContext.message);
   const [loginMessage, setLoginMessage] = useState(initialContext.loginMessage);
+  console.log(authorizedUser);
 
   const handleDarkThemeToggle = () => {
     setdarkTheme(!darkTheme);
@@ -55,8 +53,10 @@ export function LoginWrapper(props) {
       console.log(response.data.user.firstName);
 
       if (response.data.message === "Login approved") {
-        setAuthorizedUserFirstName(response.data.user.firstName);
-        setAuthorizedUserLastName(response.data.user.lastName);
+        setAuthorizedUser({
+          firstName: response.data.user.firstName,
+          lastName: response.data.user.lastName,
+        });
         handleAuthentication();
         navigate("/main");
       }
@@ -83,8 +83,6 @@ export function LoginWrapper(props) {
       }, 3000);
     }
   };
-  // console.log(authorizedUserFirstName);
-  // console.log(authorizedUserLastName);
 
   console.log("Is user authentificated?", isAuthenticated);
 
@@ -93,8 +91,7 @@ export function LoginWrapper(props) {
     handleAuthentication,
     handleLogin,
     message,
-    authorizedUserFirstName,
-    authorizedUserLastName,
+    authorizedUser,
     handleDarkThemeToggle,
     darkTheme,
     loginMessage,

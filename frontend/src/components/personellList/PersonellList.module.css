@@ -66,6 +66,7 @@
   cursor: pointer;
   border-radius: 5px;
   transition: 0.3s;
+  margin: 3px;
 }
 .button:hover {
   transform: translateY(-2px);
@@ -74,11 +75,64 @@
 .flexContainer {
   display: flex;
 }
+
+.commentButton {
+  padding: 10px 15px;
+  width: 150px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
+}
+
+.commentButton:hover {
+  background-color: #0056b3;
+  transform: scale(1.02);
+}
+.btnBlock {
+  display: flex;
+  gap: 1rem;
+}
 .commentBox {
-  border-radius: 0.5rem;
-  padding: 0.5rem;
   display: none;
 }
 .commentBox[data-visible="true"] {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 10px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.commentBox p {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.inputComment {
+  width: 400px;
+  height: 100px;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  resize: none;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  position: relative;
+}
+.letterCount {
+  position: absolute;
+  top: 112px;
+  left: 550px;
+  font-size: 0.7rem;
 }

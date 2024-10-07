@@ -167,32 +167,29 @@ app.post("/users", (req, res) => {
 });
 
 app.post("/users/comment", (req, res) => {
-  const q = "INSERT INTO usercomment(`userID`, `comment`) VALUES(?) ";
-  console.log(req.body);
+  const q =
+    "INSERT INTO usercomment(`userID`, `comment`, `author`) VALUES (?, ?, ?)";
 
-  const values = [req.body.id, req.body.comment];
+  const author =
+    req.body.authorizedUser.firstName + " " + req.body.authorizedUser.lastName;
 
-  db.query(q, [values], (err, data) => {
-    if (err) return res.json(err);
-    return res.json("User successfully commented");
+  const values = [req.body.userCommentID, req.body.comment, author];
+  console.log(values);
+
+  db.query(q, values, (err, data) => {
+    if (err) {
+      console.error("Error inserting comment:", err);
+      return res.status(500).json(err);
+    }
+    return res.status(200).json("User successfully commented");
   });
 });
 
-// app.delete("/inventory/:id", (req, res) => {
-//   const inventoryId = req.params.id;
-//   const q = "DELETE FROM inventory WHERE id = ?";
-//   db.query(q, [inventoryId], (err, data) => {
-//     if (err) return res.json(err);
-//     console.log("inventory buvo deletinta");
-//     return res.json("inventory buvo deletinta");
-//   });
-// });
-
 app.get("/usercomments/:id", (req, res) => {
   const userId = req.params.id;
-  console.log(userId);
+
   const q = "SELECT * FROM main_project_database.usercomment WHERE userId = ?";
-  console.log("Fetching comments for user ID:");
+  console.log("Fetching comments for user ID:", userId);
 
   db.query(q, [userId], (err, data) => {
     if (err) {
