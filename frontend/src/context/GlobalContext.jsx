@@ -55,16 +55,16 @@ export function ContextWrapper(props) {
     fetchAllItems();
   }, []);
   //Clear input field
-  const handleFieldClear = () => {
-    setItem(initialContext.item);
-  };
-  // When click UPDATE ITEM the field get filled with selected item data
   useEffect(() => {
     const foundItem = items.find((s) => s.id === itemID);
     if (foundItem) {
       setItem(foundItem);
     }
   }, [itemID, items]);
+  const handleFieldClear = () => {
+    setItem(initialContext.item);
+  };
+  // When click UPDATE ITEM the field get filled with selected item data
   //HANDLING INPUTCHANGE
   const handleInputChange = (e) => {
     setItem((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -76,6 +76,7 @@ export function ContextWrapper(props) {
     setUpdateActive(false);
     setinsertActive(!insertActive);
     setSelectedMenu(1);
+    setitemID(initialContext.itemID);
   };
 
   const handleUpdateActive = (id) => {
@@ -140,6 +141,7 @@ export function ContextWrapper(props) {
   //INSERTING NEW ITEM TO SQL
   const handleInsertClick = async (e) => {
     e.preventDefault();
+    // handleFieldClear();
     try {
       await axios.post("http://localhost:8800/inventory", item);
 

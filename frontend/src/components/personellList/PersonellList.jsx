@@ -36,6 +36,7 @@ const PersonellList = () => {
             onChange={handlefieldChange}
             name="comment"
             required
+            maxLength="200"
           />
           <span className={style.letterCount}>
             Symbols left: {200 - userComment.length}

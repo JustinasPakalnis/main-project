@@ -27,7 +27,6 @@ export function LoginWrapper(props) {
   );
   const [message, setMessage] = useState(initialContext.message);
   const [loginMessage, setLoginMessage] = useState(initialContext.loginMessage);
-  console.log(authorizedUser);
 
   const handleDarkThemeToggle = () => {
     setdarkTheme(!darkTheme);
@@ -49,8 +48,8 @@ export function LoginWrapper(props) {
         password: password,
       });
 
-      console.log(response.data);
-      console.log(response.data.user.firstName);
+      // console.log(response.data);
+      // console.log(response.data.user.firstName);
 
       if (response.data.message === "Login approved") {
         setAuthorizedUser({
