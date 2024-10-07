@@ -54,17 +54,17 @@ export function ContextWrapper(props) {
   useEffect(function () {
     fetchAllItems();
   }, []);
-  //Clear input field
   useEffect(() => {
     const foundItem = items.find((s) => s.id === itemID);
     if (foundItem) {
       setItem(foundItem);
     }
   }, [itemID, items]);
+  //Clear input field
   const handleFieldClear = () => {
     setItem(initialContext.item);
   };
-  // When click UPDATE ITEM the field get filled with selected item data
+
   //HANDLING INPUTCHANGE
   const handleInputChange = (e) => {
     setItem((prev) => ({ ...prev, [e.target.name]: e.target.value }));
