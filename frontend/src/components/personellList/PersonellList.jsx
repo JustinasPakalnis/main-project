@@ -68,8 +68,8 @@ const PersonellList = () => {
         <div className={style.listContainer}>
           <ul className={style.list}>
             <div className={style.title}>
-              <p>First Name</p>
-              <p>Last Name</p>
+              <p>Name</p>
+
               <p>User status</p>
 
               <p>Email addres</p>
@@ -82,8 +82,7 @@ const PersonellList = () => {
                 data-visible={userListCommentID === index}
               >
                 <li className={style.listItem}>
-                  <p>{users.firstName}</p>
-                  <p>{users.lastName}</p>
+                  <p>{users.firstName + " " + users.lastName}</p>
                   <p>{users.userstatus}</p>
                   <p>{users.email}</p>
                   <p>{users.type}</p>

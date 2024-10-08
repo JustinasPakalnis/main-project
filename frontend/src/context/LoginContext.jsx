@@ -53,8 +53,10 @@ export function LoginWrapper(props) {
 
       if (response.data.message === "Login approved") {
         setAuthorizedUser({
+          userID: response.data.user.id,
           firstName: response.data.user.firstName,
           lastName: response.data.user.lastName,
+          userType: response.data.user.type,
         });
         handleAuthentication();
         navigate("/main");
@@ -83,7 +85,7 @@ export function LoginWrapper(props) {
     }
   };
 
-  console.log("Is user authentificated?", isAuthenticated);
+  console.log(authorizedUser);
 
   const value = {
     isAuthenticated,

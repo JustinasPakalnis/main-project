@@ -98,7 +98,8 @@ app.get("/users", (req, res) => {
 });
 
 app.get("/usersFullNames", (req, res) => {
-  const q = "SELECT CONCAT(firstName, ' ', lastName) AS fullName FROM users;";
+  const q =
+    "SELECT id, CONCAT(firstName, ' ', lastName) AS fullName FROM main_project_database.users;";
   db.query(q, (err, data) => {
     if (err) {
       console.log(err);
@@ -132,7 +133,6 @@ app.post("/api/login", (req, res) => {
         message: "Login approved",
         user: {
           id: user.id,
-          // username: user.username,
           firstName: user.firstName,
           lastName: user.lastName,
           email: user.email,
@@ -197,6 +197,24 @@ app.get("/usercomments/:id", (req, res) => {
       return res.status(500).json(err);
     }
     return res.json(data);
+  });
+});
+
+app.post("/inventory/transfer", (req, res) => {
+  const q =
+    "INSERT INTO item_transfers(`item_id`, `from_user`, `to_user`, `transfer_comment`, `status`) VALUES(?)";
+  const values = [
+    req.body.itemID,
+    req.body.fromUser,
+    req.body.toUser,
+    req.body.comment,
+    req.body.transferStatus,
+  ];
+  console.log(req.body);
+
+  db.query(q, [values], (err, data) => {
+    if (err) return res.json(err);
+    return res.json("Inventory buvo pagaminta");
   });
 });
 

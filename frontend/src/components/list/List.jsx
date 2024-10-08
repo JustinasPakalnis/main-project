@@ -5,24 +5,49 @@ import { GlobalContext } from "../../context/GlobalContext";
 import Add from "../newItem/Add.jsx";
 import Update from "../newItem/Update.jsx";
 import SecondaryHeader from "../secondaryHeader/SecondaryHeader.jsx";
-import { LoginContext } from "../../context/LoginContext.jsx";
+import { UserListContext } from "../../context/UserListContext.jsx";
 const InventoryList = ({ props }) => {
   const {
-    items,
-    handleDelete,
-    handleInsertActive,
-    insertActive,
-    handleUpdateActive,
+    item,
+    handleInputChange,
+    transferData,
+    handleTransferDataChange,
+    createTransfer,
+    handleTransferComment,
   } = useContext(GlobalContext);
-  const { darkTheme } = useContext(LoginContext);
+  const { usersFullNames } = useContext(UserListContext);
   return (
     <>
       <section>
         <SecondaryHeader></SecondaryHeader>
-        <div className={style.mainListContainer} data-visible={darkTheme}>
+        <div className={style.mainListContainer}>
           <Add></Add>
           <Update></Update>
-          <div className={style.listContainer} data-visible={darkTheme}>
+          <select
+            className={style.formField}
+            name="toUser"
+            onChange={handleTransferDataChange}
+            required
+          >
+            <option value="" disabled default>
+              Select user
+            </option>
+            {usersFullNames.map((user, index) => (
+              <option key={index} value={user.id}>
+                {user.fullName}
+              </option>
+            ))}
+          </select>
+          <input
+            className={style.formField}
+            value={transferData.comment}
+            type="text"
+            placeholder="comment"
+            onChange={handleTransferComment}
+            name="comment"
+          />
+          <button onClick={createTransfer}>Send</button>
+          <div className={style.listContainer}>
             <ListTemplate props={props} />
           </div>
         </div>

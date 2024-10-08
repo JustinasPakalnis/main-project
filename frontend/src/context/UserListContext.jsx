@@ -75,6 +75,7 @@ export function UserListWrapper(props) {
     fetchAllUsersFullNames();
     setUserTemplate(initialContext.userTemplate);
   }, []);
+  // console.log(usersFullNames);
 
   // useEffect(function () {
   //   setUserTemplate(initialContext.userTemplate);
@@ -125,7 +126,7 @@ export function UserListWrapper(props) {
       console.log(err);
     }
   };
-  console.log(userListCommentID);
+  // console.log(userListCommentID);
 
   const handleUserCommentMenu = (userCommentID) => {
     setUserCommentID(userCommentID);

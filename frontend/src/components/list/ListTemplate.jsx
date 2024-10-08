@@ -3,7 +3,8 @@ import style from "./List.module.css";
 import { GlobalContext } from "../../context/GlobalContext";
 import { LoginContext } from "../../context/LoginContext.jsx";
 const ListTemplate = ({ props }) => {
-  const { handleDelete, handleUpdateActive } = useContext(GlobalContext);
+  const { handleDelete, handleUpdateActive, handleTransferMenuOpen } =
+    useContext(GlobalContext);
   const { darkTheme } = useContext(LoginContext);
   return (
     <>
@@ -35,6 +36,12 @@ const ListTemplate = ({ props }) => {
             <p>{new Date(item.createdate).toLocaleDateString()}</p>
             <p>{item.comment}</p>
             <div className={style.buttonBlock}>
+              <button
+                className={`${style.button} ${style.btnDelete}`}
+                onClick={() => handleTransferMenuOpen(item.id)}
+              >
+                Transfer
+              </button>
               <button
                 className={style.button}
                 onClick={() => handleUpdateActive(item.id)}

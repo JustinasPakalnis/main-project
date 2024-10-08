@@ -1,4 +1,5 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState, useContext } from "react";
+import { LoginContext } from "./LoginContext";
 import axios from "axios";
 export const initialContext = {
   items: [],
@@ -9,7 +10,13 @@ export const initialContext = {
   updateActive: false,
   itemID: null,
   selectedMenu: 0,
-
+  transferData: {
+    itemID: null,
+    fromUser: null,
+    toUser: null,
+    comment: "Tvarkingas",
+    transferStatus: "",
+  },
   item: {
     item: "",
     owner: "",
@@ -33,10 +40,13 @@ export const initialContext = {
   handleActiveItems: () => {},
   handleRemowedItems: () => {},
   handleTranfsersItems: () => {},
+  handleTransferMenuOpen: () => {},
+  createTransfer: () => {},
+  handleTransferComment: () => {},
 };
 export const GlobalContext = createContext(initialContext);
-
 export function ContextWrapper(props) {
+  const { authorizedUser } = useContext(LoginContext);
   const [items, setItems] = useState(initialContext.items);
   const [item, setItem] = useState(initialContext.item);
   const [insertActive, setinsertActive] = useState(initialContext.insertActive);
@@ -49,6 +59,7 @@ export function ContextWrapper(props) {
   const [remowedItems, setRemowedItems] = useState(initialContext.remowedItems);
   const [visibleItems, setVisibleItems] = useState(items);
   const [selectedMenu, setSelectedMenu] = useState(initialContext.selectedMenu);
+  const [transferData, setTransferData] = useState(initialContext.transferData);
 
   // ITEM array is filled with data ant first page opening
   useEffect(function () {
@@ -68,6 +79,29 @@ export function ContextWrapper(props) {
   //HANDLING INPUTCHANGE
   const handleInputChange = (e) => {
     setItem((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+  const handleTransferComment = (e) => {
+    setTransferData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleTransferDataChange = (e) => {
+    setTransferData((prev) => ({
+      ...prev,
+      [e.target.name]: parseInt(e.target.value),
+    }));
+  };
+  console.log(transferData);
+
+  const handleTransferMenuOpen = (ID) => {
+    setTransferData((prevData) => ({
+      ...prevData,
+      itemID: ID,
+      fromUser: authorizedUser.userID,
+      transferStatus: "pending",
+    }));
   };
 
   // INSERT NEW ITEM AND UPDATE ITEM WINDOW
@@ -152,6 +186,19 @@ export function ContextWrapper(props) {
     }
   };
 
+  const createTransfer = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post(
+        "http://localhost:8800/inventory/transfer",
+        transferData
+      );
+    } catch (err) {
+      console.log(err);
+      setError(true);
+    }
+  };
+
   // ITEM filters array is filled with data ant first page opening
   useEffect(
     function () {
@@ -190,6 +237,11 @@ export function ContextWrapper(props) {
     setSelectedMenu,
     setinsertActive,
     setUpdateActive,
+    handleTransferDataChange,
+    transferData,
+    handleTransferMenuOpen,
+    createTransfer,
+    handleTransferComment,
   };
   return (
     <GlobalContext.Provider value={value}>
