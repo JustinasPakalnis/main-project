@@ -7,6 +7,7 @@ export const initialContext = {
   usersFullNames: [],
   userComments: [],
   userCommentFieldOpen: false,
+  userListCommentID: null,
   userTemplate: {
     userstatus: "",
     password: "",
@@ -30,7 +31,7 @@ export const initialContext = {
 export const UserListContext = createContext(initialContext);
 export function UserListWrapper(props) {
   const [users, setUsers] = useState(initialContext.users);
-  const [userTemplate, setUserTemplate] = useState(initialContext.users);
+  const [userTemplate, setUserTemplate] = useState(initialContext.userTemplate);
   const [usersFullNames, setUsersFullNames] = useState(
     initialContext.usersFullNames
   );
@@ -42,6 +43,9 @@ export function UserListWrapper(props) {
   );
   const [userCommentID, setUserCommentID] = useState(
     initialContext.userCommentID
+  );
+  const [userListCommentID, setUserListCommentID] = useState(
+    initialContext.userListCommentID
   );
 
   const handlefieldChange = (e) => {
@@ -72,9 +76,9 @@ export function UserListWrapper(props) {
     setUserTemplate(initialContext.userTemplate);
   }, []);
 
-  useEffect(function () {
-    setUserTemplate(initialContext.userTemplate);
-  }, []);
+  // useEffect(function () {
+  //   setUserTemplate(initialContext.userTemplate);
+  // }, []);
 
   const handleInputChange = (e) => {
     setUserTemplate((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -105,28 +109,34 @@ export function UserListWrapper(props) {
       });
       handleFieldClear();
       setUserCommentFieldOpen(false);
+      setUserCommentID(null);
     } catch (err) {
       console.log(err);
     }
   };
 
-  const fetchUserComments = async (id) => {
+  const fetchUserComments = async (id, index) => {
     try {
       const res = await axios.get(`http://localhost:8800/usercomments/${id}`);
       setUserComments(res.data);
+      setUserCommentFieldOpen(false);
+      setUserListCommentID(userListCommentID === index ? null : index);
     } catch (err) {
       console.log(err);
     }
   };
+  console.log(userListCommentID);
 
   const handleUserCommentMenu = (userCommentID) => {
     setUserCommentID(userCommentID);
     setUserCommentFieldOpen(true);
     handleFieldClear();
+    setUserListCommentID(null);
   };
   const handleUserCommentMenuClose = () => {
     setUserCommentFieldOpen(false);
     handleFieldClear();
+    setUserCommentID(null);
   };
 
   const handleFieldClear = () => {
@@ -144,7 +154,7 @@ export function UserListWrapper(props) {
     userComments,
     fetchUserComments,
     handleUserCommentMenu,
-
+    userListCommentID,
     userCommentFieldOpen,
     handleUserCommentMenuClose,
     userCommentID,

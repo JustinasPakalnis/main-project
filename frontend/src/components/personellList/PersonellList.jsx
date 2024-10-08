@@ -15,7 +15,9 @@ const PersonellList = () => {
     userCommentFieldOpen,
     handleUserCommentMenuClose,
     userCommentID,
+    userListCommentID,
   } = useContext(UserListContext);
+  console.log(userListCommentID);
 
   const { authorizedUser } = useContext(LoginContext);
   const selectedUser = users.find((user) => user.id === userCommentID);
@@ -74,39 +76,47 @@ const PersonellList = () => {
               <p>User Type</p>
             </div>
             {users.map((users, index) => (
-              <li className={style.listItem} key={users.id}>
-                <p>{users.firstName}</p>
-                <p>{users.lastName}</p>
-                <p>{users.userstatus}</p>
-                <p>{users.email}</p>
-                <p>{users.type}</p>
+              <div
+                className={style.line}
+                key={users.id}
+                data-visible={userListCommentID === index}
+              >
+                <li className={style.listItem}>
+                  <p>{users.firstName}</p>
+                  <p>{users.lastName}</p>
+                  <p>{users.userstatus}</p>
+                  <p>{users.email}</p>
+                  <p>{users.type}</p>
 
-                <button
-                  onClick={() => handleUserCommentMenu(users.id)}
-                  className={style.button}
-                >
-                  Comment
-                </button>
-                <button
-                  onClick={(e) => fetchUserComments(users.id)}
-                  className={style.button}
-                >
-                  Get
-                </button>
-              </li>
+                  <button
+                    onClick={() => handleUserCommentMenu(users.id)}
+                    className={style.button}
+                  >
+                    Comment
+                  </button>
+                  <button
+                    onClick={() => fetchUserComments(users.id, index)}
+                    className={style.button}
+                  >
+                    {userListCommentID === index ? "Close" : "Get"}
+                  </button>
+                </li>
+                <div>
+                  {userComments.map((com) => (
+                    <div
+                      className={style.userComment}
+                      key={com.id}
+                      data-visible={userListCommentID === index}
+                    >
+                      <p>Commented by: {com.author}</p>
+                      <p>{com.commentDate.split("T").join(" ").slice(0, 16)}</p>
+                      <p>{com.comment}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
             ))}
           </ul>
-          {userComments.length > 0 ? (
-            userComments.map((userStuff, index) => (
-              <li className={style.listItem} key={userStuff.id}>
-                <p>Commented by: {userStuff.author}</p>
-                <p>{userStuff.commentDate.split("T").join(" ").slice(0, 16)}</p>
-                <p>{userStuff.comment}</p>
-              </li>
-            ))
-          ) : (
-            <p>No comments available for this one</p>
-          )}
         </div>
       </section>
     </>
