@@ -254,14 +254,17 @@ app.get("/inventory/transferlist", (req, res) => {
 app.put("/inventory/transfer/accept/:itemID/:transferID", (req, res) => {
   const itemId = req.params.itemID;
   const transferID = req.params.transferID;
+  const user = req.body.firstName + " " + req.body.lastName;
   console.log(itemId);
   console.log(transferID);
+  console.log(user);
 
   const updateValuesTransferq =
     "UPDATE item_transfers SET status = ? WHERE id= ?";
-  const updateValuesItemsq = "UPDATE inventory SET status = ? WHERE id = ?";
+  const updateValuesItemsq =
+    "UPDATE inventory SET owner = ?, status = ? WHERE id = ?";
   const updateValuesTransfer = ["completed", transferID];
-  const updateValuesItems = ["Active", itemId];
+  const updateValuesItems = [user, "Active", itemId];
 
   db.query(
     updateValuesTransferq,
@@ -289,8 +292,6 @@ app.put("/inventory/transfer/accept/:itemID/:transferID", (req, res) => {
 app.put("/inventory/transfer/decline/:itemID/:transferID", (req, res) => {
   const itemId = req.params.itemID;
   const transferID = req.params.transferID;
-  console.log(itemId);
-  console.log(transferID);
 
   const updateValuesTransferq =
     "UPDATE item_transfers SET status = ? WHERE id= ?";

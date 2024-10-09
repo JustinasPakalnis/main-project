@@ -25,9 +25,10 @@ const Transfer = () => {
             className={style.formField}
             name="toUser"
             onChange={handleTransferDataChange}
+            value={transferData.toUser} // controlled by state
             required
           >
-            <option value="1" selected>
+            <option value="1" disabled>
               Select user
             </option>
             {usersFullNames.map((user, index) => (
@@ -41,7 +42,7 @@ const Transfer = () => {
             value={transferData.comment}
             type="text"
             placeholder="comment"
-            onChange={handleTransferComment}
+            onChange={() => handleTransferComment(e)}
             name="comment"
           />
         </div>
@@ -51,6 +52,7 @@ const Transfer = () => {
           </button>
           <button
             className={style.updateButton}
+            type="button"
             onClick={handleTransferMenuClose}
           >
             Cancel

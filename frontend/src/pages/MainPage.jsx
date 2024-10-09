@@ -35,10 +35,6 @@ const MainPage = () => {
               path="/Inventory/transfers"
               element={<TransferList props={transferItems} type="Transfer" />}
             />
-            {/* <Route
-              path="/Inventory/transfers"
-              element={<InventoryList props={transferItems} type="Transfer" />}
-            /> */}
             <Route path="/Personell" element={<PersonellList />} />
             <Route path="/createNewUser" element={<RegistrationTemplate />} />
           </Routes>

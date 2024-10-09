@@ -95,6 +95,8 @@ export function ContextWrapper(props) {
     setItem((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
   const handleTransferComment = (e) => {
+    console.log(e);
+
     setTransferData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
@@ -245,7 +247,8 @@ export function ContextWrapper(props) {
     e.preventDefault();
     try {
       await axios.put(
-        `http://localhost:8800/inventory/transfer/accept/${itemId}/${transferId}`
+        `http://localhost:8800/inventory/transfer/accept/${itemId}/${transferId}`,
+        authorizedUser
       );
       fetchTransferListData();
       fetchAllItems();
