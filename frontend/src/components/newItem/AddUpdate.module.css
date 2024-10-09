@@ -7,9 +7,9 @@
 .form {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  /* align-items: center; */
+  align-items: self-start;
+  justify-content: flex-start;
+
   gap: 1rem;
   padding: 1rem 0;
 }
@@ -66,4 +66,12 @@
 .btnBlock {
   display: flex;
   gap: 1rem;
+}
+
+.transferForm[data-transfervisible="false"] {
+  display: none;
+}
+.transferForm {
+  display: flex;
+  padding: 1rem;
 }

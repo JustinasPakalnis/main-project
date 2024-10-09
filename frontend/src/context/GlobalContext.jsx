@@ -10,6 +10,7 @@ export const initialContext = {
   updateActive: false,
   itemID: null,
   selectedMenu: 0,
+  transfervisible: false,
   transferData: {
     itemID: null,
     fromUser: null,
@@ -43,6 +44,7 @@ export const initialContext = {
   handleTransferMenuOpen: () => {},
   createTransfer: () => {},
   handleTransferComment: () => {},
+  handleTransferMenuClose: () => {},
 };
 export const GlobalContext = createContext(initialContext);
 export function ContextWrapper(props) {
@@ -60,6 +62,9 @@ export function ContextWrapper(props) {
   const [visibleItems, setVisibleItems] = useState(items);
   const [selectedMenu, setSelectedMenu] = useState(initialContext.selectedMenu);
   const [transferData, setTransferData] = useState(initialContext.transferData);
+  const [transfervisible, setTransfervisible] = useState(
+    initialContext.transfervisible
+  );
 
   // ITEM array is filled with data ant first page opening
   useEffect(function () {
@@ -102,7 +107,15 @@ export function ContextWrapper(props) {
       fromUser: authorizedUser.userID,
       transferStatus: "pending",
     }));
+    setTransfervisible(true);
+    handleUpdateActiveOFF();
+    setinsertActive(false);
   };
+  const handleTransferMenuClose = () => {
+    setTransferData(initialContext.transferData);
+    setTransfervisible(false);
+  };
+  console.log(transfervisible);
 
   // INSERT NEW ITEM AND UPDATE ITEM WINDOW
   const handleInsertActive = () => {
@@ -111,12 +124,14 @@ export function ContextWrapper(props) {
     setinsertActive(!insertActive);
     setSelectedMenu(1);
     setitemID(initialContext.itemID);
+    handleTransferMenuClose();
   };
 
   const handleUpdateActive = (id) => {
     setinsertActive(false);
     setitemID(id);
     setUpdateActive(true);
+    handleTransferMenuClose();
   };
 
   const handleUpdateActiveOFF = () => {
@@ -124,18 +139,21 @@ export function ContextWrapper(props) {
     setUpdateActive(false);
   };
   const handleActiveItems = () => {
+    handleTransferMenuClose();
     setUpdateActive(false);
     setinsertActive(false);
     handleFieldClear();
   };
 
   const handleRemowedItems = () => {
+    handleTransferMenuClose();
     setUpdateActive(false);
     setinsertActive(false);
     handleFieldClear();
   };
 
   const handleTranfsersItems = () => {
+    handleTransferMenuClose();
     setUpdateActive(false);
     setinsertActive(false);
     handleFieldClear();
@@ -193,6 +211,8 @@ export function ContextWrapper(props) {
         "http://localhost:8800/inventory/transfer",
         transferData
       );
+      handleTransferMenuClose();
+      fetchAllItems();
     } catch (err) {
       console.log(err);
       setError(true);
@@ -242,6 +262,8 @@ export function ContextWrapper(props) {
     handleTransferMenuOpen,
     createTransfer,
     handleTransferComment,
+    transfervisible,
+    handleTransferMenuClose,
   };
   return (
     <GlobalContext.Provider value={value}>

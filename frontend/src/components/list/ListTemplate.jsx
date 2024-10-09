@@ -2,7 +2,7 @@ import { useContext } from "react";
 import style from "./List.module.css";
 import { GlobalContext } from "../../context/GlobalContext";
 import { LoginContext } from "../../context/LoginContext.jsx";
-const ListTemplate = ({ props }) => {
+const ListTemplate = ({ props, type }) => {
   const { handleDelete, handleUpdateActive, handleTransferMenuOpen } =
     useContext(GlobalContext);
   const { darkTheme } = useContext(LoginContext);
@@ -36,12 +36,15 @@ const ListTemplate = ({ props }) => {
             <p>{new Date(item.createdate).toLocaleDateString()}</p>
             <p>{item.comment}</p>
             <div className={style.buttonBlock}>
-              <button
-                className={`${style.button} ${style.btnDelete}`}
-                onClick={() => handleTransferMenuOpen(item.id)}
-              >
-                Transfer
-              </button>
+              {type === "Active" ? (
+                <button
+                  className={`${style.button} ${style.btnDelete}`}
+                  onClick={() => handleTransferMenuOpen(item.id)}
+                >
+                  Transfer
+                </button>
+              ) : null}
+
               <button
                 className={style.button}
                 onClick={() => handleUpdateActive(item.id)}

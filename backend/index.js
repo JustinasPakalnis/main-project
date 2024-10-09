@@ -201,20 +201,34 @@ app.get("/usercomments/:id", (req, res) => {
 });
 
 app.post("/inventory/transfer", (req, res) => {
-  const q =
+  // Insert query for item_transfers table
+  const insertQuery =
     "INSERT INTO item_transfers(`item_id`, `from_user`, `to_user`, `transfer_comment`, `status`) VALUES(?)";
-  const values = [
+
+  // Update query for inventory table
+  const updateQuery = "UPDATE inventory SET status = ? WHERE id = ?";
+
+  // Values for the insert query
+  const transferValues = [
     req.body.itemID,
     req.body.fromUser,
     req.body.toUser,
     req.body.comment,
     req.body.transferStatus,
   ];
-  console.log(req.body);
 
-  db.query(q, [values], (err, data) => {
-    if (err) return res.json(err);
-    return res.json("Inventory buvo pagaminta");
+  const updateValues = ["Transfer", req.body.itemID];
+
+  db.query(insertQuery, [transferValues], (insertErr, insertData) => {
+    if (insertErr) {
+      return res.status(500).json(insertErr);
+    }
+    db.query(updateQuery, updateValues, (updateErr, updateData) => {
+      if (updateErr) {
+        return res.status(500).json(updateErr);
+      }
+      return res.json("Transfer was successful, and inventory was updated.");
+    });
   });
 });
 

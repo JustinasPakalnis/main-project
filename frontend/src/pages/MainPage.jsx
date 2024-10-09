@@ -20,19 +20,19 @@ const MainPage = () => {
             <Route path="/" element={<Navigate to="/main/Inventory" />} />
             <Route
               path="/Inventory"
-              element={<InventoryList props={visibleItems} />}
+              element={<InventoryList props={visibleItems} type="All" />}
             />
             <Route
               path="/Inventory/active"
-              element={<InventoryList props={activeItems} />}
+              element={<InventoryList props={activeItems} type="Active" />}
             />
             <Route
               path="/Inventory/remowed"
-              element={<InventoryList props={remowedItems} />}
+              element={<InventoryList props={remowedItems} type="Remowed" />}
             />
             <Route
               path="/Inventory/transfers"
-              element={<InventoryList props={transferItems} />}
+              element={<InventoryList props={transferItems} type="Transfer" />}
             />
             <Route path="/Personell" element={<PersonellList />} />
             <Route path="/createNewUser" element={<RegistrationTemplate />} />
