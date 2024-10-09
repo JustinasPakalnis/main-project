@@ -11,11 +11,13 @@ export const initialContext = {
   itemID: null,
   selectedMenu: 0,
   transfervisible: false,
+  transferListData: {},
+
   transferData: {
     itemID: null,
     fromUser: null,
     toUser: null,
-    comment: "Tvarkingas",
+    comment: "",
     transferStatus: "",
   },
   item: {
@@ -45,6 +47,8 @@ export const initialContext = {
   createTransfer: () => {},
   handleTransferComment: () => {},
   handleTransferMenuClose: () => {},
+  acceptTransfer: () => {},
+  declineTransfer: () => {},
 };
 export const GlobalContext = createContext(initialContext);
 export function ContextWrapper(props) {
@@ -65,16 +69,21 @@ export function ContextWrapper(props) {
   const [transfervisible, setTransfervisible] = useState(
     initialContext.transfervisible
   );
+  const [transferListData, setTransferListData] = useState(
+    initialContext.transferListData
+  );
 
   // ITEM array is filled with data ant first page opening
   useEffect(function () {
     fetchAllItems();
+    fetchTransferListData();
   }, []);
   useEffect(() => {
     const foundItem = items.find((s) => s.id === itemID);
     if (foundItem) {
       setItem(foundItem);
     }
+    fetchTransferListData();
   }, [itemID, items]);
   //Clear input field
   const handleFieldClear = () => {
@@ -115,7 +124,6 @@ export function ContextWrapper(props) {
     setTransferData(initialContext.transferData);
     setTransfervisible(false);
   };
-  console.log(transfervisible);
 
   // INSERT NEW ITEM AND UPDATE ITEM WINDOW
   const handleInsertActive = () => {
@@ -158,6 +166,9 @@ export function ContextWrapper(props) {
     setinsertActive(false);
     handleFieldClear();
   };
+  const getlist = () => {
+    fetchTransferListData();
+  };
 
   // Get data from SQL
   const fetchAllItems = async () => {
@@ -168,6 +179,17 @@ export function ContextWrapper(props) {
       console.log(err);
     }
   };
+  const fetchTransferListData = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:8800/inventory/transferlist"
+      );
+      setTransferListData(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  console.log(transferListData);
 
   // Remowe selected item
   const handleDelete = async (id) => {
@@ -219,6 +241,33 @@ export function ContextWrapper(props) {
     }
   };
 
+  const acceptTransfer = async (e, itemId, transferId) => {
+    e.preventDefault();
+    try {
+      await axios.put(
+        `http://localhost:8800/inventory/transfer/accept/${itemId}/${transferId}`
+      );
+      fetchTransferListData();
+      fetchAllItems();
+    } catch (err) {
+      console.log(err);
+      setError(true);
+    }
+  };
+  const declineTransfer = async (e, itemId, transferId) => {
+    e.preventDefault();
+    try {
+      await axios.put(
+        `http://localhost:8800/inventory/transfer/decline/${itemId}/${transferId}`
+      );
+      fetchTransferListData();
+      fetchAllItems();
+    } catch (err) {
+      console.log(err);
+      setError(true);
+    }
+  };
+
   // ITEM filters array is filled with data ant first page opening
   useEffect(
     function () {
@@ -229,6 +278,7 @@ export function ContextWrapper(props) {
     },
     [items]
   );
+
   const value = {
     items,
     item,
@@ -264,6 +314,10 @@ export function ContextWrapper(props) {
     handleTransferComment,
     transfervisible,
     handleTransferMenuClose,
+    getlist,
+    transferListData,
+    acceptTransfer,
+    declineTransfer,
   };
   return (
     <GlobalContext.Provider value={value}>

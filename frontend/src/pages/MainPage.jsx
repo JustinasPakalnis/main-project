@@ -4,6 +4,7 @@ import { UserListWrapper } from "../context/UserListContext";
 import SecondaryHeader from "../components/secondaryHeader/SecondaryHeader.jsx";
 import NavBar from "../components/navBar/NavBar.jsx";
 import InventoryList from "../components/list/List.jsx";
+import TransferList from "../components/list/TransferList.jsx";
 import PersonellList from "../components/personellList/PersonellList.jsx";
 import RegistrationTemplate from "../components/registrationTemplate/RegistrationTemplate.jsx";
 import { GlobalContext } from "../context/GlobalContext";
@@ -32,8 +33,12 @@ const MainPage = () => {
             />
             <Route
               path="/Inventory/transfers"
-              element={<InventoryList props={transferItems} type="Transfer" />}
+              element={<TransferList props={transferItems} type="Transfer" />}
             />
+            {/* <Route
+              path="/Inventory/transfers"
+              element={<InventoryList props={transferItems} type="Transfer" />}
+            /> */}
             <Route path="/Personell" element={<PersonellList />} />
             <Route path="/createNewUser" element={<RegistrationTemplate />} />
           </Routes>

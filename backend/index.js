@@ -201,14 +201,11 @@ app.get("/usercomments/:id", (req, res) => {
 });
 
 app.post("/inventory/transfer", (req, res) => {
-  // Insert query for item_transfers table
   const insertQuery =
     "INSERT INTO item_transfers(`item_id`, `from_user`, `to_user`, `transfer_comment`, `status`) VALUES(?)";
 
-  // Update query for inventory table
   const updateQuery = "UPDATE inventory SET status = ? WHERE id = ?";
 
-  // Values for the insert query
   const transferValues = [
     req.body.itemID,
     req.body.fromUser,
@@ -230,6 +227,98 @@ app.post("/inventory/transfer", (req, res) => {
       return res.json("Transfer was successful, and inventory was updated.");
     });
   });
+});
+
+app.get("/inventory/transferlist", (req, res) => {
+  const q = `
+   SELECT 
+      item_transfers.*, 
+      inventory.condition, 
+      inventory.item, 
+      CONCAT(toUser.firstName, ' ', toUser.lastName) AS toUserFullName,
+      CONCAT(fromUser.firstName, ' ', fromUser.lastName) AS fromUserFullName
+    FROM main_project_database.item_transfers
+    JOIN main_project_database.inventory ON item_transfers.item_id = inventory.id
+    JOIN main_project_database.users AS toUser ON item_transfers.to_user = toUser.id
+    JOIN main_project_database.users AS fromUser ON item_transfers.from_user = fromUser.id
+  `;
+  db.query(q, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
+app.put("/inventory/transfer/accept/:itemID/:transferID", (req, res) => {
+  const itemId = req.params.itemID;
+  const transferID = req.params.transferID;
+  console.log(itemId);
+  console.log(transferID);
+
+  const updateValuesTransferq =
+    "UPDATE item_transfers SET status = ? WHERE id= ?";
+  const updateValuesItemsq = "UPDATE inventory SET status = ? WHERE id = ?";
+  const updateValuesTransfer = ["completed", transferID];
+  const updateValuesItems = ["Active", itemId];
+
+  db.query(
+    updateValuesTransferq,
+    updateValuesTransfer,
+    (insertErr, transferData) => {
+      if (insertErr) {
+        return res.status(500).json(insertErr);
+      }
+      db.query(
+        updateValuesItemsq,
+        updateValuesItems,
+        (updateErr, inventoryData) => {
+          if (updateErr) {
+            return res.status(500).json(updateErr);
+          }
+          return res.json(
+            "Transfer was successful, and inventory was updated."
+          );
+        }
+      );
+    }
+  );
+});
+
+app.put("/inventory/transfer/decline/:itemID/:transferID", (req, res) => {
+  const itemId = req.params.itemID;
+  const transferID = req.params.transferID;
+  console.log(itemId);
+  console.log(transferID);
+
+  const updateValuesTransferq =
+    "UPDATE item_transfers SET status = ? WHERE id= ?";
+  const updateValuesItemsq = "UPDATE inventory SET status = ? WHERE id = ?";
+  const updateValuesTransfer = ["declined", transferID];
+  const updateValuesItems = ["Active", itemId];
+
+  db.query(
+    updateValuesTransferq,
+    updateValuesTransfer,
+    (insertErr, transferData) => {
+      if (insertErr) {
+        return res.status(500).json(insertErr);
+      }
+      db.query(
+        updateValuesItemsq,
+        updateValuesItems,
+        (updateErr, inventoryData) => {
+          if (updateErr) {
+            return res.status(500).json(updateErr);
+          }
+          return res.json(
+            "Transfer was successful, and inventory was updated."
+          );
+        }
+      );
+    }
+  );
 });
 
 app.listen(8800, () => {

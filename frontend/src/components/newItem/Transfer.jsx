@@ -12,7 +12,7 @@ const Transfer = () => {
     handleTransferMenuClose,
   } = useContext(GlobalContext);
   const { usersFullNames } = useContext(UserListContext);
-  console.log(transfervisible);
+
   return (
     <>
       <form
@@ -27,7 +27,7 @@ const Transfer = () => {
             onChange={handleTransferDataChange}
             required
           >
-            <option value="" disabled default>
+            <option value="1" selected>
               Select user
             </option>
             {usersFullNames.map((user, index) => (

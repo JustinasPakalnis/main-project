@@ -62,7 +62,6 @@ const AddUpdateTemplate = () => {
           </option>
           <option value="Active">Active</option>
           <option value="Remowed">Remowed</option>
-          <option value="Transfer">Transfer</option>
         </select>
         <select
           className={style.formField}
