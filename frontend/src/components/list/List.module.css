@@ -69,3 +69,8 @@
 .flexContainer {
   display: flex;
 }
+.transferTitle {
+  text-align: center;
+  padding: 1rem;
+  font-size: 2rem;
+}

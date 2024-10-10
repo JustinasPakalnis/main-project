@@ -25,10 +25,10 @@ const Transfer = () => {
             className={style.formField}
             name="toUser"
             onChange={handleTransferDataChange}
-            value={transferData.toUser} // controlled by state
+            value={transferData.toUser}
             required
           >
-            <option value="1" disabled>
+            <option value="" disabled>
               Select user
             </option>
             {usersFullNames.map((user, index) => (

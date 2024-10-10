@@ -16,7 +16,7 @@ export const initialContext = {
   transferData: {
     itemID: null,
     fromUser: null,
-    toUser: null,
+    toUser: "",
     comment: "",
     transferStatus: "",
   },
@@ -191,7 +191,7 @@ export function ContextWrapper(props) {
       console.log(err);
     }
   };
-  console.log(transferListData);
+  // console.log(transferListData);
 
   // Remowe selected item
   const handleDelete = async (id) => {

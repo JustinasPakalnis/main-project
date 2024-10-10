@@ -33,7 +33,7 @@ const MainPage = () => {
             />
             <Route
               path="/Inventory/transfers"
-              element={<TransferList props={transferItems} type="Transfer" />}
+              element={<TransferList type="Transfer" />}
             />
             <Route path="/Personell" element={<PersonellList />} />
             <Route path="/createNewUser" element={<RegistrationTemplate />} />
