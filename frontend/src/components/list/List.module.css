@@ -26,6 +26,7 @@
   border-bottom: 2px solid #944c4c;
   margin-bottom: 10px;
   gap: 0.25rem;
+  position: relative;
 }
 .title p {
   width: 140px;
@@ -73,4 +74,32 @@
   text-align: center;
   padding: 1rem;
   font-size: 2rem;
+}
+.formField {
+  width: 200px;
+}
+.formField {
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f3f3f3;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.formField:focus {
+  border-color: #007bff;
+  background-color: #fff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  outline: none;
+}
+.searchBtn {
+  height: 1.5rem;
+  width: 1.5rem;
+  color: #00000063;
+  position: absolute;
+  left: 185px;
+  top: 20px;
+}
+.searchBtn:hover {
+  cursor: pointer;
 }

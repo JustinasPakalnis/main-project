@@ -21,6 +21,7 @@ const PersonellList = () => {
 
   const { authorizedUser } = useContext(LoginContext);
   const selectedUser = users.find((user) => user.id === userCommentID);
+
   return (
     <>
       <section className={style.usersListContainer}>
@@ -81,7 +82,13 @@ const PersonellList = () => {
                 key={users.id}
                 data-visible={userListCommentID === index}
               >
-                <li className={style.listItem}>
+                <li
+                  className={
+                    index % 2 === 0
+                      ? style.listItem
+                      : `${style.listItem} ${style.listItem2}`
+                  }
+                >
                   <p>{users.firstName + " " + users.lastName}</p>
                   <p>{users.userstatus}</p>
                   <p>{users.email}</p>

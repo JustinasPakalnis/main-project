@@ -1,13 +1,43 @@
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import style from "./List.module.css";
 import { GlobalContext } from "../../context/GlobalContext";
 import { LoginContext } from "../../context/LoginContext.jsx";
+import { FaSearch } from "react-icons/fa";
 const ListTemplate = ({ props, type }) => {
   const { handleDelete, handleUpdateActive, handleTransferMenuOpen } =
     useContext(GlobalContext);
   const { darkTheme } = useContext(LoginContext);
+  const [searchName, setSearchName] = useState("");
+  const [newSearchList, setNewSearchList] = useState(props);
+  console.log(searchName);
+  console.log(props);
+
+  useEffect(() => {
+    setNewSearchList(props);
+  }, [props]);
+
+  function handleSearch() {
+    setNewSearchList(
+      props.filter((item) =>
+        item.item.toLowerCase().includes(searchName.toLowerCase())
+      )
+    );
+  }
+
   return (
     <>
+      {" "}
+      <div className={style.title}>
+        <input
+          className={style.formField}
+          type="text"
+          placeholder="search item"
+          name="search"
+          value={searchName}
+          onChange={(e) => setSearchName(e.target.value)}
+        />
+        <FaSearch className={style.searchBtn} onClick={handleSearch} />
+      </div>
       <div className={style.title}>
         <p>Item</p>
         <p>Owner</p>
@@ -18,7 +48,7 @@ const ListTemplate = ({ props, type }) => {
         <p>Comment</p>
       </div>
       <ul className={style.list}>
-        {props.map((item, index) => (
+        {newSearchList.map((item, index) => (
           <li
             className={
               index % 2 === 0

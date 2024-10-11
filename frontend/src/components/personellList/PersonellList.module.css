@@ -5,7 +5,7 @@
 }
 .listContainer {
   width: 1200px;
-  padding: 0 50px;
+  padding: 0 20px;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   background-color: #fff;
@@ -44,16 +44,19 @@
 }
 .listItem {
   display: flex;
-  justify-content: space-between;
+  gap: 0.5rem;
   align-items: center;
-  padding: 5 15px;
-  border-bottom: 1px solid #f1f1f1;
+  padding: 0 1rem;
+  border-radius: 10px;
   transition: background-color 0.3s ease;
-  margin: 5px;
+  height: 3rem;
+  background-color: #ffffff;
 }
-
+.listItem2 {
+  background-color: #f8f7f7f1;
+}
 .listItem:hover {
-  background-color: #f9f9f9;
+  background-color: #e2cccc;
 }
 
 .listItem p {
@@ -155,7 +158,7 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 .line[data-visible="true"] {
-  border: 2px solid rgba(128, 128, 128, 0.445);
+  background-color: #f1d8d885;
   border-radius: 1rem;
   padding: 1rem;
 }

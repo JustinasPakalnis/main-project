@@ -42,7 +42,7 @@ const Transfer = () => {
             value={transferData.comment}
             type="text"
             placeholder="comment"
-            onChange={() => handleTransferComment(e)}
+            onChange={(e) => handleTransferComment(e)}
             name="comment"
           />
         </div>
