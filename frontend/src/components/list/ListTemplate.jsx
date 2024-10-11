@@ -11,7 +11,7 @@ const ListTemplate = ({ props, type }) => {
   const [newSearchList, setNewSearchList] = useState(props);
   console.log(searchName);
   console.log(props);
-
+  const { authorizedUser } = useContext(LoginContext);
   useEffect(() => {
     setNewSearchList(props);
   }, [props]);
@@ -66,15 +66,6 @@ const ListTemplate = ({ props, type }) => {
             <p>{new Date(item.createdate).toLocaleDateString()}</p>
             <p>{item.comment}</p>
             <div className={style.buttonBlock}>
-              {type === "Active" ? (
-                <button
-                  className={`${style.button} ${style.btnDelete}`}
-                  onClick={() => handleTransferMenuOpen(item.id)}
-                >
-                  Transfer
-                </button>
-              ) : null}
-
               <button
                 className={style.button}
                 onClick={() => handleUpdateActive(item.id)}
@@ -86,7 +77,17 @@ const ListTemplate = ({ props, type }) => {
                 onClick={() => handleDelete(item.id)}
               >
                 Delete
-              </button>
+              </button>{" "}
+              {type === "Active" &&
+              authorizedUser.firstName + " " + authorizedUser.lastName ===
+                item.owner ? (
+                <button
+                  className={`${style.button} ${style.btnDelete}`}
+                  onClick={() => handleTransferMenuOpen(item.id)}
+                >
+                  Transfer
+                </button>
+              ) : null}
             </div>
           </li>
         ))}

@@ -40,7 +40,7 @@
   margin-bottom: 10px;
 }
 .title p {
-  width: 220px;
+  width: 207px;
 }
 .listItem {
   display: flex;
@@ -161,4 +161,9 @@
   background-color: #f1d8d885;
   border-radius: 1rem;
   padding: 1rem;
+}
+.buttons {
+  width: 250px;
+  display: flex;
+  justify-content: flex-end;
 }

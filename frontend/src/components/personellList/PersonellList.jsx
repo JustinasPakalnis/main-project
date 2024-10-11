@@ -93,19 +93,25 @@ const PersonellList = () => {
                   <p>{users.userstatus}</p>
                   <p>{users.email}</p>
                   <p>{users.type}</p>
-
-                  <button
-                    onClick={() => handleUserCommentMenu(users.id)}
-                    className={style.button}
-                  >
-                    Comment
-                  </button>
-                  <button
-                    onClick={() => fetchUserComments(users.id, index)}
-                    className={style.button}
-                  >
-                    {userListCommentID === index ? "Close" : "Get"}
-                  </button>
+                  <div className={style.buttons}>
+                    {authorizedUser.firstName +
+                      " " +
+                      authorizedUser.lastName !==
+                    users.firstName + " " + users.lastName ? (
+                      <button
+                        onClick={() => handleUserCommentMenu(users.id)}
+                        className={style.button}
+                      >
+                        Comment
+                      </button>
+                    ) : null}
+                    <button
+                      onClick={() => fetchUserComments(users.id, index)}
+                      className={style.button}
+                    >
+                      {userListCommentID === index ? "Close" : "Get"}
+                    </button>
+                  </div>
                 </li>
                 <div>
                   {userComments.map((com) => (

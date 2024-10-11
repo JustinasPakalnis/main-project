@@ -25,11 +25,11 @@
   padding: 15px;
   border-bottom: 2px solid #944c4c;
   margin-bottom: 10px;
-  gap: 0.25rem;
+  gap: 0.35rem;
   position: relative;
 }
 .title p {
-  width: 140px;
+  width: 125px;
 }
 .listItem {
   display: flex;
@@ -48,12 +48,13 @@
 }
 
 .listItem p {
-  width: 140px;
+  width: 200px;
 }
 
 .buttonBlock {
   display: flex;
   gap: 0.5rem;
+  width: 350px;
 }
 .button {
   background-color: #f1e9e9;

@@ -72,6 +72,7 @@ export function ContextWrapper(props) {
   const [transferListData, setTransferListData] = useState(
     initialContext.transferListData
   );
+  console.log(items);
 
   // ITEM array is filled with data ant first page opening
   useEffect(function () {

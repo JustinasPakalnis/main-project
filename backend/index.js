@@ -4,11 +4,13 @@ import cors from "cors";
 
 const app = express();
 
-const db = mysql2.createConnection({
-  host: "localhost",
+// const mysql = require("mysql2");
+
+const connection = mysql2.createConnection({
+  host: "34.142.40.170",
   user: "root",
-  password: "123",
-  database: "main_project_database",
+  password: "12345678",
+  database: "MPD",
 });
 
 app.use(express.json());
@@ -19,8 +21,8 @@ app.get("/", (req, res) => {
 });
 
 app.get("/inventory", (req, res) => {
-  const q = "SELECT * FROM main_project_database.inventory";
-  db.query(q, (err, data) => {
+  const q = "SELECT * FROM MPD.inventory";
+  connection.query(q, (err, data) => {
     if (err) {
       console.log(err);
       return res.json(err);
@@ -31,7 +33,7 @@ app.get("/inventory", (req, res) => {
 
 app.post("/inventory", (req, res) => {
   const q =
-    "INSERT INTO inventory(`item`, `owner`, `location`, `value`, `status`, `createdate`, `comment`, `condition`) VALUES(?)";
+    "INSERT INTO MPD.inventory(`item`, `owner`, `location`, `value`, `status`, `createdate`, `comment`, `condition`) VALUES(?)";
   const values = [
     req.body.item,
     req.body.owner,
@@ -44,7 +46,7 @@ app.post("/inventory", (req, res) => {
   ];
   console.log(req.body);
 
-  db.query(q, [values], (err, data) => {
+  connection.query(q, [values], (err, data) => {
     if (err) return res.json(err);
     return res.json("Inventory buvo pagaminta");
   });
@@ -52,8 +54,8 @@ app.post("/inventory", (req, res) => {
 
 app.delete("/inventory/:id", (req, res) => {
   const inventoryId = req.params.id;
-  const q = "DELETE FROM inventory WHERE id = ?";
-  db.query(q, [inventoryId], (err, data) => {
+  const q = "DELETE FROM MPD.inventory WHERE id = ?";
+  connection.query(q, [inventoryId], (err, data) => {
     if (err) return res.json(err);
     console.log("inventory buvo deletinta");
     return res.json("inventory buvo deletinta");
@@ -63,7 +65,7 @@ app.delete("/inventory/:id", (req, res) => {
 app.put("/inventory/:id", (req, res) => {
   const inventoryId = req.params.id;
   const q =
-    "UPDATE inventory SET `item` = ?, `owner` = ?, `location` = ?, `value` = ?, `status` = ?, `createdate` = ?, `comment` = ?, `condition` = ? WHERE id = ?";
+    "UPDATE MPD.inventory SET `item` = ?, `owner` = ?, `location` = ?, `value` = ?, `status` = ?, `createdate` = ?, `comment` = ?, `condition` = ? WHERE id = ?";
   const values = [
     req.body.item,
     req.body.owner,
@@ -74,7 +76,7 @@ app.put("/inventory/:id", (req, res) => {
     req.body.comment,
     req.body.condition,
   ];
-  db.query(q, [...values, inventoryId], (err, data) => {
+  connection.query(q, [...values, inventoryId], (err, data) => {
     if (err) return res.json(err);
     return res.json("inventory buvo updeitinta");
   });
@@ -82,9 +84,9 @@ app.put("/inventory/:id", (req, res) => {
 
 app.get("/users", (req, res) => {
   const q =
-    "SELECT id, userstatus, type, firstName, lastName, email FROM main_project_database.users";
+    "SELECT id, userstatus, type, firstName, lastName, email FROM MPD.users";
 
-  db.query(q, (err, data) => {
+  connection.query(q, (err, data) => {
     if (err) {
       console.error(err);
       return res.status(500).json({
@@ -99,8 +101,8 @@ app.get("/users", (req, res) => {
 
 app.get("/usersFullNames", (req, res) => {
   const q =
-    "SELECT id, CONCAT(firstName, ' ', lastName) AS fullName FROM main_project_database.users;";
-  db.query(q, (err, data) => {
+    "SELECT id, CONCAT(firstName, ' ', lastName) AS fullName FROM MPD.users;";
+  connection.query(q, (err, data) => {
     if (err) {
       console.log(err);
       return res.json(err);
@@ -114,9 +116,9 @@ app.post("/api/login", (req, res) => {
   console.log(email);
   console.log(password);
 
-  const q = "SELECT * FROM main_project_database.users WHERE email = ?";
+  const q = "SELECT * FROM MPD.users WHERE email = ?";
 
-  db.query(q, [email], (err, data) => {
+  connection.query(q, [email], (err, data) => {
     if (err) {
       console.error("Database error:", err);
       return res.status(500).json({ message: "Internal server error" });
@@ -149,7 +151,7 @@ app.post("/api/login", (req, res) => {
 
 app.post("/users", (req, res) => {
   const q =
-    "INSERT INTO users(`userstatus`, `password`, `type`, `firstName`, `lastName`, `email`) VALUES(?)";
+    "INSERT INTO MPD.users(`userstatus`, `password`, `type`, `firstName`, `lastName`, `email`) VALUES(?)";
   console.log(req.body);
 
   const values = [
@@ -160,7 +162,7 @@ app.post("/users", (req, res) => {
     req.body.lastName,
     req.body.email,
   ];
-  db.query(q, [values], (err, data) => {
+  connection.query(q, [values], (err, data) => {
     if (err) return res.json(err);
     return res.json("User successfully registered");
   });
@@ -168,7 +170,7 @@ app.post("/users", (req, res) => {
 
 app.post("/users/comment", (req, res) => {
   const q =
-    "INSERT INTO usercomment(`userID`, `comment`, `author`) VALUES (?, ?, ?)";
+    "INSERT INTO MPD.usercomment(`userID`, `comment`, `author`) VALUES (?, ?, ?)";
 
   const author =
     req.body.authorizedUser.firstName + " " + req.body.authorizedUser.lastName;
@@ -176,7 +178,7 @@ app.post("/users/comment", (req, res) => {
   const values = [req.body.userCommentID, req.body.comment, author];
   console.log(values);
 
-  db.query(q, values, (err, data) => {
+  connection.query(q, values, (err, data) => {
     if (err) {
       console.error("Error inserting comment:", err);
       return res.status(500).json(err);
@@ -188,10 +190,10 @@ app.post("/users/comment", (req, res) => {
 app.get("/usercomments/:id", (req, res) => {
   const userId = req.params.id;
 
-  const q = "SELECT * FROM main_project_database.usercomment WHERE userId = ?";
+  const q = "SELECT * FROM MPD.usercomment WHERE userId = ?";
   console.log("Fetching comments for user ID:", userId);
 
-  db.query(q, [userId], (err, data) => {
+  connection.query(q, [userId], (err, data) => {
     if (err) {
       console.log(err);
       return res.status(500).json(err);
@@ -202,7 +204,7 @@ app.get("/usercomments/:id", (req, res) => {
 
 app.post("/inventory/transfer", (req, res) => {
   const insertQuery =
-    "INSERT INTO item_transfers(`item_id`, `from_user`, `to_user`, `transfer_comment`, `status`) VALUES(?)";
+    "INSERT INTO MPD.item_transfers(`item_id`, `from_user`, `to_user`, `transfer_comment`, `status`) VALUES(?)";
 
   const updateQuery = "UPDATE inventory SET status = ? WHERE id = ?";
 
@@ -216,11 +218,11 @@ app.post("/inventory/transfer", (req, res) => {
 
   const updateValues = ["Transfer", req.body.itemID];
 
-  db.query(insertQuery, [transferValues], (insertErr, insertData) => {
+  connection.query(insertQuery, [transferValues], (insertErr, insertData) => {
     if (insertErr) {
       return res.status(500).json(insertErr);
     }
-    db.query(updateQuery, updateValues, (updateErr, updateData) => {
+    connection.query(updateQuery, updateValues, (updateErr, updateData) => {
       if (updateErr) {
         return res.status(500).json(updateErr);
       }
@@ -231,18 +233,18 @@ app.post("/inventory/transfer", (req, res) => {
 
 app.get("/inventory/transferlist", (req, res) => {
   const q = `
-   SELECT 
-      item_transfers.*, 
-      inventory.condition, 
-      inventory.item, 
+   SELECT
+      item_transfers.*,
+      inventory.condition,
+      inventory.item,
       CONCAT(toUser.firstName, ' ', toUser.lastName) AS toUserFullName,
       CONCAT(fromUser.firstName, ' ', fromUser.lastName) AS fromUserFullName
-    FROM main_project_database.item_transfers
-    JOIN main_project_database.inventory ON item_transfers.item_id = inventory.id
-    JOIN main_project_database.users AS toUser ON item_transfers.to_user = toUser.id
-    JOIN main_project_database.users AS fromUser ON item_transfers.from_user = fromUser.id
+    FROM MPD.item_transfers
+    JOIN MPD.inventory ON item_transfers.item_id = inventory.id
+    JOIN MPD.users AS toUser ON item_transfers.to_user = toUser.id
+    JOIN MPD.users AS fromUser ON item_transfers.from_user = fromUser.id
   `;
-  db.query(q, (err, data) => {
+  connection.query(q, (err, data) => {
     if (err) {
       console.log(err);
       return res.json(err);
@@ -260,20 +262,20 @@ app.put("/inventory/transfer/accept/:itemID/:transferID", (req, res) => {
   console.log(user);
 
   const updateValuesTransferq =
-    "UPDATE item_transfers SET status = ? WHERE id= ?";
+    "UPDATE MPD.item_transfers SET status = ? WHERE id= ?";
   const updateValuesItemsq =
-    "UPDATE inventory SET owner = ?, status = ? WHERE id = ?";
+    "UPDATE MPD.inventory SET owner = ?, status = ? WHERE id = ?";
   const updateValuesTransfer = ["completed", transferID];
   const updateValuesItems = [user, "Active", itemId];
 
-  db.query(
+  connection.query(
     updateValuesTransferq,
     updateValuesTransfer,
     (insertErr, transferData) => {
       if (insertErr) {
         return res.status(500).json(insertErr);
       }
-      db.query(
+      connection.query(
         updateValuesItemsq,
         updateValuesItems,
         (updateErr, inventoryData) => {
@@ -294,19 +296,19 @@ app.put("/inventory/transfer/decline/:itemID/:transferID", (req, res) => {
   const transferID = req.params.transferID;
 
   const updateValuesTransferq =
-    "UPDATE item_transfers SET status = ? WHERE id= ?";
+    "UPDATE MPD.item_transfers SET status = ? WHERE id= ?";
   const updateValuesItemsq = "UPDATE inventory SET status = ? WHERE id = ?";
   const updateValuesTransfer = ["declined", transferID];
   const updateValuesItems = ["Active", itemId];
 
-  db.query(
+  connection.query(
     updateValuesTransferq,
     updateValuesTransfer,
     (insertErr, transferData) => {
       if (insertErr) {
         return res.status(500).json(insertErr);
       }
-      db.query(
+      connection.query(
         updateValuesItemsq,
         updateValuesItems,
         (updateErr, inventoryData) => {
@@ -322,6 +324,13 @@ app.put("/inventory/transfer/decline/:itemID/:transferID", (req, res) => {
   );
 });
 
+connection.connect((err) => {
+  if (err) {
+    console.error("Error connecting to the database:", err.stack);
+    return;
+  }
+  console.log("Connected to the database as ID:", connection.threadId);
+});
 app.listen(8800, () => {
   console.log("connected to backend");
 });

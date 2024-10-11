@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
 import { UserListContext } from "../../context/UserListContext";
+import { LoginContext } from "../../context/LoginContext";
 import style from "./AddUpdate.module.css";
 const Transfer = () => {
   const {
@@ -12,7 +13,7 @@ const Transfer = () => {
     handleTransferMenuClose,
   } = useContext(GlobalContext);
   const { usersFullNames } = useContext(UserListContext);
-
+  const { authorizedUser } = useContext(LoginContext);
   return (
     <>
       <form
@@ -31,11 +32,14 @@ const Transfer = () => {
             <option value="" disabled>
               Select user
             </option>
-            {usersFullNames.map((user, index) => (
-              <option key={index} value={user.id}>
-                {user.fullName}
-              </option>
-            ))}
+            {usersFullNames.map((user, index) =>
+              authorizedUser.firstName + " " + authorizedUser.lastName !==
+              user.fullName ? (
+                <option key={index} value={user.id}>
+                  {user.fullName}
+                </option>
+              ) : null
+            )}
           </select>
           <input
             className={style.formField}
