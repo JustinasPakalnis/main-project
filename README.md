@@ -5,7 +5,6 @@
 - [Project Overview](#project-overview)
 - [Features](#features)
 - [Technologies Used](#technologies-used)
-- [Usage](#usage)
 
 ## Project Overview
 
